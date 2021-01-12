@@ -299,12 +299,7 @@
                                     Customers visit List
                                 </a>
                             </li>
-                            <!-- <li>
-                                <a id="listpage" href="<?= base_url('projectlist.html') ?>" class="">
-                                    <i class="metismenu-icon icon-list-alt2" style="color:#FF9900;"></i>
-                                    Customers visit Report
-                                </a>
-                            </li> -->
+                        
 
 
                             <li class="app-sidebar__heading">User Menu</li>
