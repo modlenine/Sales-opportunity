@@ -8,16 +8,16 @@
 
     <script>
         $(document).ready(function() {
-            $('#user_data_wdf thead th').each(function() {
+            $('#customerslist thead th').each(function() {
                 var title = $(this).text();
                 $(this).html(title + ' <input type="text" class="col-search-input" placeholder="Search ' + title + '" />');
             });
 
-            var table = $('#user_data_wdf').DataTable({
+            var table = $('#customerslist').DataTable({
                 "scrollX": true,
                 "processing": true,
                 "serverSide": true,
-                "ajax": "<?php echo base_url('main/projectlist'); ?>",
+                "ajax": "<?php echo base_url('main/getcustomerlist'); ?>",
                 order: [
                     [0, 'desc']
                 ],
@@ -59,18 +59,18 @@
         
         <div class="row">
             <div class="col-md-12 bg-white p-3">
-                <a href="<?=base_url('addproject.html')?>" class="button button-circle button-3d button-blue"><i class="icon-tags"></i>เพิ่ม Opportunity</a>
+                <a href="<?=base_url('addcusvisit.html')?>" class="button button-circle button-3d button-blue"><i class="icon-tags"></i>เพิ่มข้อมูลใหม่</a>
 
                 <div class="table-responsive">
-                    <table id="user_data_wdf" class="table table-striped table-bordered" style="width:100%">
+                    <table id="customerslist" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
-                                <th class="border-b">เลขที่รายการ</th>
-                                <th class="border-b">วันที่</th>
-                                <th class="border-b">รายละเอียด</th>
-                                <th class="border-b">ลูกค้า</th>
-                                <th class="border-b">ผู้รับผิดชอบ</th>
-                                <th class="border-b">กลุ่มสินค้า</th>
+                                <th class="border-b">Cus visit no.</th>
+                                <th class="border-b">Datetime</th>
+                                <th class="border-b">Customer name</th>
+                                <th class="border-b">Business Type</th>
+                                <th class="border-b">Country</th>
+                                <th class="border-b">Tel</th>
                             </tr>
                         </thead>
                     </table>

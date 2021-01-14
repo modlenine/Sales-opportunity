@@ -1,20 +1,30 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Main extends MX_Controller {
+class Main extends MX_Controller
+{
 
-    
+
     public function __construct()
     {
         parent::__construct();
         //Do your magic here
         date_default_timezone_set("Asia/Bangkok");
-        $this->load->model("main/main_model" , "main");
+        $this->load->model("main/main_model", "main");
     }
-    
 
 
+
+
+
+
+
+
+
+    // View Zone View Zone View Zone
+    // View Zone View Zone View Zone
+    // View Zone View Zone View Zone
     // Function call page
     public function index()
     {
@@ -24,7 +34,7 @@ class Main extends MX_Controller {
             "title" => "Index page"
         );
         getHead();
-        getContent("index" , $data);
+        getContent("index", $data);
         getFooter();
     }
 
@@ -37,12 +47,13 @@ class Main extends MX_Controller {
             "title" => "หน้าแสดงรายการโปรเจค | Sales Opportunity Program"
         );
         getHead();
-        getContent("projectlist" , $data);
+        getContent("projectlist", $data);
         getFooter();
     }
 
     public function addproject_page()
     {
+        checkSession();
         $data = array(
             "title" => "Add page",
             "year1" => getYear1(),
@@ -50,12 +61,13 @@ class Main extends MX_Controller {
             "year3" => getYear3(),
         );
         getHead();
-        getContent("addproject" , $data);
+        getContent("addproject", $data);
         getFooter();
     }
 
     public function viewfulldata($procode)
     {
+        checkSession();
         $data = array(
             "title" => "View full page",
             "procode" => getFulldata($procode)->m_procode,
@@ -64,14 +76,14 @@ class Main extends MX_Controller {
             "progroup" => getFulldata($procode)->m_productgroup,
             "datetime" => conDateTimeFromDb(getFulldata($procode)->m_datetime_create),
             "nameuser" => getFulldata($procode)->m_user_name,
-            "ecodeuser" => getFulldata($procode)->m_user_ecode,
+            "ecodeuser" => getFulldata($procode)->m_owner,
             "distance" => getFulldata($procode)->m_distance,
 
             "product" => getFulldata($procode)->ms_productname,
-            
+
         );
         getHead();
-        getContent("viewfulldata",$data);
+        getContent("viewfulldata", $data);
         getFooter();
     }
 
@@ -82,8 +94,7 @@ class Main extends MX_Controller {
 
     public function editproject($procode)
     {
-        
-
+        checkSession();
         $data = array(
             "title" => "Edit page",
             "procode" => getFulldata($procode)->m_procode,
@@ -103,22 +114,18 @@ class Main extends MX_Controller {
             "subprocode" => getFulldata($procode)->ms_procode,
             "ms_jobstatus" => getFulldata($procode)->ms_jobstatus,
             "ms_jobtype" => getFulldata($procode)->ms_jobtype,
-
-
-            
-            
         );
 
         getHead();
-        getContent("editproject" , $data);
+        getContent("editproject", $data);
         getFooter();
     }
-
 
 
 
     public function addnewjob($procode)
     {
+        checkSession();
         $data = array(
             "title" => "Edit page",
             "procode" => getFulldata($procode)->m_procode,
@@ -142,117 +149,244 @@ class Main extends MX_Controller {
         );
 
         getHead();
-        getContent("addnewjob" , $data);
+        getContent("addnewjob", $data);
         getFooter();
     }
-
-
 
 
 
     public function usersetting()
     {
+        checkSession();
         $data = array(
             "title" => "User setting page",
         );
 
         getHead();
-        getContent("usersetting" , $data);
+        getContent("usersetting", $data);
         getFooter();
     }
-      // Function call page
+
+
+    public function report()
+    {
+        $data = array(
+            "title" => "Opportunity Report page",
+        );
+
+        getHead();
+        getContent("report" , $data);
+        getFooter();
+    }
+    // Function call page
+    // View Zone View Zone View Zone
+    // View Zone View Zone View Zone
+    // View Zone View Zone View Zone
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+    // Query Zone Query Zone Query Zone
+    // Query Zone Query Zone Query Zone
+    // Query Zone Query Zone Query Zone
+
+    // Load Zone Load Zone Load Zone
+    // Load Zone Load Zone Load Zone
     // Load project list to projectlist.html
-   public function projectlist()
-   {
-       $this->main->projectlist();
-   }
+    public function projectlist()
+    {
+        checkSession();
+        $this->main->projectlist();
+    }
+
+    public function reportlist()
+    {
+        checkSession();
+
+        $data['rs_report'] = $this->main->reportlist();
+
+        $this->load->view("report_result" , $data);
+    }
+
+    public function reportlistDate()
+    {
+        checkSession();
+
+        $data['rs_report'] = $this->main->reportlistDate();
+
+        $this->load->view("report_result" , $data);
+
+    }
+    // Load Zone Load Zone Load Zone
+    // Load Zone Load Zone Load Zone
 
 
+    // Save Zone Save Zone Save Zone
+    // Save Zone Save Zone Save Zone
 
     //Save data to database
     public function savedata()
     {
-        if($this->main->savedata() == true)
-        {
-            header("refresh:0; url=".base_url('projectlist.html'));
-            
-        }else{
+        checkSession();
+        if ($this->main->savedata() == true) {
+            header("refresh:0; url=" . base_url('projectlist.html'));
+        } else {
             echo "<script>";
             echo "alert('บันทึกข้อมูลไม่สำเร็จ')";
             echo "</script>";
             exit;
         }
-        
     }
     //Save data to database
 
 
-
-    //Save data to database
-    public function savedataEdit($procode,$subprocode)
+    //Save Edit data to database
+    public function savedataEdit($procode, $subprocode)
     {
-        if($this->main->savedataEdit($procode,$subprocode) == true)
-        {
-            header("refresh:0; url=".base_url('viewfulldata.html/').$procode);
-            
-        }else{
+        checkSession();
+        if ($this->main->savedataEdit($procode, $subprocode) == true) {
+            header("refresh:0; url=" . base_url('viewfulldata.html/') . $procode);
+        } else {
             echo "<script>";
             echo "alert('บันทึกข้อมูลไม่สำเร็จ')";
             echo "</script>";
             exit;
         }
-        
     }
-    //Save data to database
+    //Save Edit data to database
 
 
-
-
-    //Save data to database
-    public function savenewjob($procode,$subprocode)
+    //Save new job to database
+    public function savenewjob($procode, $subprocode)
     {
-        if($this->main->savenewjob($procode,$subprocode) == true)
-        {
-            header("refresh:0; url=".base_url('viewfulldata.html/').$procode);
-            
-        }else{
+        checkSession();
+        if ($this->main->savenewjob($procode, $subprocode) == true) {
+            header("refresh:0; url=" . base_url('viewfulldata.html/') . $procode);
+        } else {
             echo "<script>";
             echo "alert('บันทึกข้อมูลไม่สำเร็จ')";
             echo "</script>";
             exit;
         }
-        
     }
-    //Save data to database
-
-
-    
-
-
-
+    //Save new job to database
 
 
     // Save Comment
-
     public function saveComment()
     {
-        $this->main->saveComment(); 
+        checkSession();
+        $this->main->saveComment();
     }
-
     // Save Comment
 
+    // Save Zone Save Zone Save Zone
+    // Save Zone Save Zone Save Zone
+
+
+    // Query Zone Query Zone Query Zone
+    // Query Zone Query Zone Query Zone
+    // Query Zone Query Zone Query Zone
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Customers Zone Customers Zone Customers Zone
+    // Customers Zone Customers Zone Customers Zone
+    // Customers Zone Customers Zone Customers Zone
+    public function customerslist()
+    {
+        $data = array(
+            "title" => "Customer Visit report list"
+        );
+
+        getHead();
+        getContent("customerslist", $data);
+        getFooter();
+    }
+
+    // get Customers list to datatable
+    public function getcustomerlist()
+    {
+        $this->main->getCustomerlist();
+    }
+    // get Customers list to datatable
+
+    public function addcustomervisit()
+    {
+        $data = array(
+            "title" => "Customer visit report"
+        );
+
+        getHead();
+        getContent("addcustomervisit", $data);
+        getFooter();
+    }
+
+
+
+
+
+    // Customers Zone Customers Zone Customers Zone
+    // Customers Zone Customers Zone Customers Zone
+    // Customers Zone Customers Zone Customers Zone
+
+
+    public function uploadpage()
+    {
+        $data = array(
+            "title" => "Upload page"
+        );
+
+        getHead();
+        getContent("upload", $data);
+        getFooter();
+    }
+
+    public function douploadfile()
+    {
+        $this->main->douploadfile();
+    }
+
+
+    public function testcode()
+    {
+        $dc = date_create("2020-01-01");
+        $dateCon = date_format($dc, "Y");
+        for ($i = 1; $i <= 3; $i++) {
+            echo $i . " " . $dateCon . "<br>";
+
+            $dateCon++;
+        }
+    }
 }
 /* End of file Controllername.php */
-
-?>

@@ -44,7 +44,7 @@ class Main_model extends CI_Model
             array(
                 'db' => 'm_datetime_create', 'dt' => 1,
                 'formatter' => function ($d, $row) {
-                    return conDateTimeFromDb($d);
+                    return conDateFromDb($d);
                 }
             ),
             array('db' => 'm_detail', 'dt' => 2),
@@ -69,13 +69,30 @@ class Main_model extends CI_Model
 
         $ecode = getUser()->ecode;
         $deptcode = getUser()->DeptCode;
-        if (getUser()->ecode != "M0051" || getUser()->ecode != "M0112" || getUser()->ecode != "M1809") {
-            echo json_encode(
-                SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "m_owner = '$ecode' ")
-            );
-        } else if (getUser()->posi == 75) {
+        // if (getUser()->ecode != "M0051" || getUser()->ecode != "M0112") {
+        //     echo json_encode(
+        //         SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "m_owner = '$ecode' ")
+        //     );
+        // } else if (getUser()->posi >= 75) {
+        //     echo json_encode(
+        //         SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
+        //     );
+        // }else{
+        //     echo json_encode(
+        //         SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
+        //     );
+        // }
+        if ($ecode == "M1848" || $ecode == "M1809" || $ecode == "M0051" || $ecode == "M0112") {
             echo json_encode(
                 SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
+            );
+        } else if (getUser()->posi > 75) {
+            echo json_encode(
+                SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
+            );
+        } else {
+            echo json_encode(
+                SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "m_owner = '$ecode' ")
             );
         }
     }
@@ -161,6 +178,7 @@ class Main_model extends CI_Model
             }
         }
     }
+
 
 
 
@@ -313,8 +331,8 @@ class Main_model extends CI_Model
             }
 
             $saveSubMasterTable = array(
-                "ms_procode" => $subprojectno ,
-                "ms_m_procode" => $procode ,
+                "ms_procode" => $subprojectno,
+                "ms_m_procode" => $procode,
                 "ms_productname" => $this->input->post("nm_productname"),
                 "ms_productuse" => $this->input->post("nm_productuse"),
                 "ms_percensuccess" => $this->input->post("nm_percensuccess"),
@@ -402,5 +420,313 @@ class Main_model extends CI_Model
         $query = getFulldata($procode)->row();
         return $query;
     }
+
+
+
+
+
+
+
+
+    // Customers zone Customers zone Customers zone
+    public function getCustomerlist()
+    {
+        // DB table to use
+        $table = 'projectlist';
+        // $table = <<<EOT
+        // (
+        //     select * from listdefault
+        // )temp
+        // EOT;
+
+        // Table's primary key
+        $primaryKey = 'm_autoid';
+
+        // Array of database columns which should be read and sent back to DataTables.
+        // The `db` parameter represents the column name in the database, while the `dt`
+        // parameter represents the DataTables column identifier. In this case simple
+        // indexes
+
+        $columns = array(
+            array(
+                'db' => 'm_procode', 'dt' => 0,
+                'formatter' => function ($d, $row) {
+
+                    return '<b><a href="' . base_url('viewfulldata.html/') . $d . '">' . $d . '</a></b>'; //or any other format you require
+                }
+            ),
+            array(
+                'db' => 'm_datetime_create', 'dt' => 1,
+                'formatter' => function ($d, $row) {
+                    return conDateTimeFromDb($d);
+                }
+            ),
+            array('db' => 'm_detail', 'dt' => 2),
+            array('db' => 'm_customer', 'dt' => 3),
+            array('db' => 'm_owner', 'dt' => 4),
+            array('db' => 'm_productgroup', 'dt' => 5)
+        );
+
+        // SQL server connection information
+        $sql_details = array(
+            'user' => getDb()->db_username,
+            'pass' => getDb()->db_password,
+            'db'   => getDb()->db_databasename,
+            'host' => getDb()->db_host
+        );
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+            * If you just want to use the basic configuration for DataTables with PHP
+            * server-side, there is no need to edit below this line.
+            */
+        require('server-side/scripts/ssp.class.php');
+
+        $ecode = getUser()->ecode;
+        $deptcode = getUser()->DeptCode;
+        if (getUser()->ecode != "M0051" || getUser()->ecode != "M0112" || getUser()->ecode != "M1809") {
+            echo json_encode(
+                SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "m_owner = '$ecode' ")
+            );
+        } else if (getUser()->posi == 75) {
+            echo json_encode(
+                SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
+            );
+        }
+    }
+
+
+
+    public function douploadfile()
+    {
+        $message = '';
+        if (isset($_POST["upload"])) {
+            if ($_FILES['file1']['name']) {
+                $filename = explode(".", $_FILES['file1']['name']);
+                if (end($filename) == "csv") {
+                    $handle = fopen($_FILES['file1']['tmp_name'], "r");
+
+                    // Select ข้อมูล Master table 1 row มาเช็ค
+
+                    while ($data = fgetcsv($handle)) {
+
+                        $projectno = getFormNo();
+                        $subprojectno = getSubFormNo();
+                        $userfullname = getUser()->Fname . " " . getUser()->Lname;
+
+                        $mday = date("d");
+                        $mmonth = date("m");
+                        $myear = date("Y");
+
+                        $dateTimeCreate = date_create($data[0]);
+                        $conDateTimeCreate = date_format($dateTimeCreate , "Y-m-d");
+
+                        $saveMasterTable = array(
+                            "m_procode" => $projectno,
+                            "m_detail" => $data[1],
+                            "m_customer" => $data[2],
+                            "m_owner" => $data[3],
+                            "m_productgroup" => $data[4],
+                            "m_distance" => $data[6],
+
+                            "m_datetime_create" => $conDateTimeCreate,
+                            "m_day" => $mday,
+                            "m_month" => $mmonth,
+                            "m_year" => $myear
+                        );
+                        $this->db->insert("sop_master", $saveMasterTable);
+
+
+                        $saveSubMasterTable = array(
+                            "ms_procode" => $subprojectno,
+                            "ms_m_procode" => $projectno,
+                            "ms_productname" => $data[5],
+                            "ms_productuse" => $data[7],
+                            "ms_percensuccess" => $data[8],
+                            "ms_ideaprice" => $data[9],
+                            "ms_jobstatus" => $data[16],
+                            "ms_jobtype" => $data[17],
+                            "ms_status" => "active",
+
+                            "ms_user_datetime_create" => $conDateTimeCreate,
+                            "ms_day" => $mday,
+                            "ms_month" => $mmonth,
+                            "ms_year" => $myear
+                        );
+                        $this->db->insert("sop_submaster", $saveSubMasterTable);
+
+
+                
+
+                        // Import forecast
+
+                        // year1 = 10,11
+                        // year 2 = 12,13
+                        // year 3 = 14,15
+                        $dateProject = date_create($data[0]);
+                        $getOnlyYear = date_format($dateProject, "Y");
+
+                        $dataProject2 = date_create($data[0]);
+                        $fyear = date_format($dataProject2, "Y");
+
+                        $y =1;
+                        for ($i = 1; $i <= 3; $i++) {
+
+                            if($i == 1){
+                                $use = $data[10];
+                                $money = $data[11];
+                            }else if($i == 2){
+                                $use = $data[12];
+                                $money = $data[13];
+                            }else if($i == 3){
+                                $use = $data[14];
+                                $money = $data[15];
+                            }
+
+                            $saveForcase = array(
+                                "f_msprocode" => $subprojectno,
+                                "f_procode" => $projectno,
+                                "f_proyear" => $fyear,
+                                "f_use" => $use,
+                                "f_year" => $getOnlyYear,
+                                "f_money" => $money,
+                            );
+                            $this->db->insert("sop_forcast", $saveForcase);
+                            
+
+                            $getOnlyYear++;
+                        }
+
+
+
+
+                        // Import Comment
+                        $saveComment = array(
+                            "trn_followdetail" => $data[18],
+                            "trn_procode" => $projectno,
+                            "trn_msid" => $subprojectno,
+                            "trn_user_datetime_create" => $conDateTimeCreate
+                            
+                        );
+                        $this->db->insert("sop_transfollow", $saveComment);
+
+                    }
+
+                    fclose($handle);
+
+                    header("refresh:5; url=" . base_url('projectlist.html'));
+                } else {
+                    $message = '<label class="text-danger">Please Select CSV File only</label>';
+                }
+            } else {
+                $message = '<label class="text-danger">Please Select File</label>';
+            }
+        }
+    }
+
+
+public function reportlist()
+{
+
+        $sql = $this->db->query("SELECT
+        sop_master.m_autoid,
+        sop_master.m_procode,
+        sop_master.m_detail,
+        sop_master.m_customer,
+        sop_master.m_owner,
+        sop_master.m_productgroup,
+        sop_master.m_distance,
+        sop_master.m_user_name,
+        sop_master.m_user_deptcode,
+        sop_master.m_user_deptname,
+        sop_master.m_user_ecode,
+        sop_master.m_datetime_create,
+        sop_master.m_datetime_modify,
+        sop_submaster.ms_autoid,
+        sop_submaster.ms_procode,
+        sop_submaster.ms_m_procode,
+        sop_submaster.ms_productname,
+        sop_submaster.ms_productuse,
+        sop_submaster.ms_percensuccess,
+        sop_submaster.ms_ideaprice,
+        sop_submaster.ms_jobstatus,
+        sop_submaster.ms_jobtype,
+        sop_submaster.ms_user_name,
+        sop_submaster.ms_user_deptcode,
+        sop_submaster.ms_user_deptname,
+        sop_submaster.ms_user_ecode,
+        sop_submaster.ms_user_datetime_create,
+        sop_submaster.ms_user_datetime_modify,
+        sop_submaster.ms_day,
+        sop_submaster.ms_month,
+        sop_submaster.ms_year,
+        sop_submaster.ms_status
+        FROM
+        sop_master
+        INNER JOIN sop_submaster ON sop_submaster.ms_m_procode = sop_master.m_procode ");
+
+        return $sql->result();
+    
+}
+
+
+public function reportlistDate()
+{
+    $datestart = "";
+    $dateend ="";
+    $datestart = $this->input->post("date_start");
+    $dateend = $this->input->post("date_end");
+
+        $sql = $this->db->query("SELECT
+        sop_master.m_autoid,
+        sop_master.m_procode,
+        sop_master.m_detail,
+        sop_master.m_customer,
+        sop_master.m_owner,
+        sop_master.m_productgroup,
+        sop_master.m_distance,
+        sop_master.m_user_name,
+        sop_master.m_user_deptcode,
+        sop_master.m_user_deptname,
+        sop_master.m_user_ecode,
+        sop_master.m_datetime_create,
+        sop_master.m_datetime_modify,
+        sop_submaster.ms_autoid,
+        sop_submaster.ms_procode,
+        sop_submaster.ms_m_procode,
+        sop_submaster.ms_productname,
+        sop_submaster.ms_productuse,
+        sop_submaster.ms_percensuccess,
+        sop_submaster.ms_ideaprice,
+        sop_submaster.ms_jobstatus,
+        sop_submaster.ms_jobtype,
+        sop_submaster.ms_user_name,
+        sop_submaster.ms_user_deptcode,
+        sop_submaster.ms_user_deptname,
+        sop_submaster.ms_user_ecode,
+        sop_submaster.ms_user_datetime_create,
+        sop_submaster.ms_user_datetime_modify,
+        sop_submaster.ms_day,
+        sop_submaster.ms_month,
+        sop_submaster.ms_year,
+        sop_submaster.ms_status
+        FROM
+        sop_master
+        INNER JOIN sop_submaster ON sop_submaster.ms_m_procode = sop_master.m_procode
+        WHERE sop_master.m_datetime_create BETWEEN '$datestart 00:00:00' AND '$dateend 00:00:00' ");
+
+        return $sql->result();
+    
+}
+
+
+
+
+
+
+
+
+
+
+
 }
 /* End of file ModelName.php */

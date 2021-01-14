@@ -68,3 +68,19 @@ $route['savenewjob.html/(:any)/(:any)'] = 'main/savenewjob/$1/$2';
 $route['savecomment.html'] = 'main/saveComment';
 
 $route['usersetting.html'] = 'main/usersetting';
+
+
+
+
+// Customer zone
+$route['cusvisit_list.html'] = 'main/customerslist';
+$route['addcusvisit.html'] = 'main/addcustomervisit';
+
+
+// Upload
+$route['douploadfile.html'] = 'main/douploadfile';
+
+
+
+// Report page
+$route['report.html'] = 'main/report';

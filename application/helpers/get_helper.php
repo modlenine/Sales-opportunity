@@ -552,6 +552,57 @@ function getSubMaster($procode)
 
 
 
+// Report Zone Report Zone Report Zone
+// Report Zone Report Zone Report Zone
+// Report Zone Report Zone Report Zone
+
+function getForecast($msprocode)
+{
+    $sql = getfn()->db->query("SELECT
+    sop_forcast.f_autoid,
+    sop_forcast.f_msprocode,
+    sop_forcast.f_procode,
+    sop_forcast.f_proyear,
+    sop_forcast.f_year,
+    sop_forcast.f_use,
+    sop_forcast.f_money
+    FROM
+    sop_forcast
+    WHERE sop_forcast.f_msprocode = '$msprocode' ");
+
+    return $sql->result();
+}
+
+
+function getFollow($msprocode)
+{
+    $sql = getfn()->db->query("SELECT
+    sop_transfollow.trn_autoid,
+    sop_transfollow.trn_followdetail,
+    sop_transfollow.trn_procode,
+    sop_transfollow.trn_msid,
+    sop_transfollow.trn_user_name,
+    sop_transfollow.trn_user_deptcode,
+    sop_transfollow.trn_user_deptname,
+    sop_transfollow.trn_user_ecode,
+    sop_transfollow.trn_user_datetime_create,
+    sop_transfollow.trn_user_datetime_modify,
+    sop_transfollow.trn_day,
+    sop_transfollow.trn_month,
+    sop_transfollow.trn_year
+    FROM
+    sop_transfollow
+    WHERE trn_msid = '$msprocode' ");
+    return $sql->result();
+}
+
+// Report Zone Report Zone Report Zone
+// Report Zone Report Zone Report Zone
+// Report Zone Report Zone Report Zone
+
+
+
+
 
 
 

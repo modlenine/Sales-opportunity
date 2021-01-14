@@ -39,6 +39,7 @@ if($('#checkPage').val() == ""){
 if($('#checkPage').val() == "addproject.html"){
 
 
+    
 // Check number input Check number input Check number input
 // Check number input Check number input Check number input
 // Check number input Check number input Check number input
@@ -1140,6 +1141,7 @@ $('#nm_forcastuse3').blur(function(){
     // Control Comma input Control Comma input Control Comma input
     // Control Comma input Control Comma input Control Comma input
     // Control Comma input Control Comma input Control Comma input
+    
 }
 // control Addnew job page control Addnew job page control Addnew job page control Addnew job page
 // control Addnew job page control Addnew job page control Addnew job page control Addnew job page
@@ -1199,6 +1201,26 @@ if($('#checkPage').val() == "viewfulldata.html")
 // control viewfull page control viewfull page control viewfull page control viewfull page
 // control viewfull page control viewfull page control viewfull page control viewfull page
 // control viewfull page control viewfull page control viewfull page control viewfull page
+
+
+
+
+
+
+
+if($('#check_reportpage').val() == "report.html")
+{
+
+    load_report();
+
+    $('#btn_datesearch').click(function(){
+        load_reportDate($('#report_datestart').val(), $('#report_dateend').val());
+    });
+
+    $('#btn_datereset').click(function () {
+        location.reload();
+    });
+}
 
 
 

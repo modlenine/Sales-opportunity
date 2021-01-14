@@ -40,11 +40,11 @@
     <!-- Icon -->
 
     <!-- Tiny Editer -->
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>simditor/site/assets/styles/simditor.css" />
-    <script type="text/javascript" src="<?=base_url()?>simditor/site/assets/scripts/module.js"></script>
-    <script type="text/javascript" src="<?=base_url()?>simditor/site/assets/scripts/hotkeys.js"></script>
-    <script type="text/javascript" src="<?=base_url()?>simditor/site/assets/scripts/uploader.js"></script>
-    <script type="text/javascript" src="<?=base_url()?>simditor/site/assets/scripts/simditor.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>simditor/site/assets/styles/simditor.css" />
+    <script type="text/javascript" src="<?= base_url() ?>simditor/site/assets/scripts/module.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>simditor/site/assets/scripts/hotkeys.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>simditor/site/assets/scripts/uploader.js"></script>
+    <script type="text/javascript" src="<?= base_url() ?>simditor/site/assets/scripts/simditor.js"></script>
 
 
     <!-- Chart -->
@@ -124,8 +124,17 @@
             font-size: .85rem !important;
         }
 
-        .col-search-input{
-            width:100% !important;
+        .col-search-input {
+            width: 100% !important;
+        }
+
+        table {
+            margin: 0 auto;
+            width: 100%;
+            clear: both;
+            border-collapse: collapse;
+            table-layout: fixed; 
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -217,7 +226,7 @@
                                     </div>
                                 </div>
                                 <div class="widget-content-right header-user-info ml-3">
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -288,18 +297,24 @@
                             <li>
                                 <a id="listpage" href="<?= base_url('projectlist.html') ?>" class="">
                                     <i class="metismenu-icon icon-list-alt2" style="color:#FF9900;"></i>
-                                    Projects List
+                                    Opportunity List
+                                </a>
+                            </li>
+                            <li>
+                                <a id="listpage" href="<?= base_url('report.html') ?>" class="">
+                                    <i class="metismenu-icon icon-archive1" style="color:#FF9900;"></i>
+                                    Opportunity Report
                                 </a>
                             </li>
 
                             <li class="app-sidebar__heading">Customer Menu</li>
                             <li>
-                                <a id="listpage" href="<?= base_url('projectlist.html') ?>" class="">
-                                    <i class="metismenu-icon icon-list-alt2" style="color:#FF9900;"></i>
-                                    Customers visit List
+                                <a id="listpage" href="<?= base_url('cusvisit_list.html') ?>" class="">
+                                    <i class="metismenu-icon icon-child" style="color:#006400;"></i>
+                                    Customers Visit
                                 </a>
                             </li>
-                        
+
 
 
                             <li class="app-sidebar__heading">User Menu</li>
@@ -310,7 +325,7 @@
                                 </a>
                             </li> -->
                             <li>
-                                <a href="<?=base_url('login/logout')?>" onclick="confirm('คุณต้องการออกจากระบบใช่หรือไม่')">
+                                <a href="<?= base_url('login/logout') ?>" onclick="confirm('คุณต้องการออกจากระบบใช่หรือไม่')">
                                     <i class="metismenu-icon icon-signout" style="color:red;"></i>
                                     Logout
                                 </a>
@@ -330,7 +345,7 @@
                                 </a>
                             </li>
                             <!-- <li>
-                                <a href="<?=base_url('login/logout')?>" onclick="confirm('คุณต้องการออกจากระบบใช่หรือไม่')">
+                                <a href="<?= base_url('login/logout') ?>" onclick="confirm('คุณต้องการออกจากระบบใช่หรือไม่')">
                                     <i class="metismenu-icon icon-signout" style="color:red;"></i>
                                     Logout
                                 </a>

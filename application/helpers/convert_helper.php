@@ -24,6 +24,12 @@ function conDateTimeFromDb($datetime)
     return date_format($datetimeIn,"d/m/Y H:i:s");
 }
 
+function conDateFromDb($datetime)
+{
+    $datetimeIn = date_create($datetime);
+    return date_format($datetimeIn,"d/m/Y");
+}
+
 function conPrice($priceinput)
 {
     $oriprice = str_replace("," , "" , $priceinput);

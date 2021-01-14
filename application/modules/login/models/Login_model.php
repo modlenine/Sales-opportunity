@@ -37,19 +37,31 @@ class Login_model extends CI_Model
       die();
     } else {
 
-      foreach ($checkuser->result_array() as $r) {
-        $_SESSION['username'] = $r['username'];
-        $_SESSION['password'] = $r['password'];
-        $_SESSION['Fname'] = $r['Fname'];
-        $_SESSION['Lname'] = $r['Lname'];
-        $_SESSION['Dept'] = $r['Dept'];
-        $_SESSION['ecode'] = $r['ecode'];
-        $_SESSION['DeptCode'] = $r['DeptCode'];
-        $_SESSION['memberemail'] = $r['memberemail'];
-        $_SESSION['file_img'] = $r['file_img'];
+      if ($checkuser->row()->DeptCode == 1006 || $checkuser->row()->DeptCode == 1002) {
+        
 
-        // insert login log
-        session_write_close();
+        foreach ($checkuser->result_array() as $r) {
+          $_SESSION['username'] = $r['username'];
+          $_SESSION['password'] = $r['password'];
+          $_SESSION['Fname'] = $r['Fname'];
+          $_SESSION['Lname'] = $r['Lname'];
+          $_SESSION['Dept'] = $r['Dept'];
+          $_SESSION['ecode'] = $r['ecode'];
+          $_SESSION['DeptCode'] = $r['DeptCode'];
+          $_SESSION['memberemail'] = $r['memberemail'];
+          $_SESSION['file_img'] = $r['file_img'];
+
+          // insert login log
+          session_write_close();
+        }
+
+      } else {
+        echo "<script>";
+        echo "alert('โปรแกรมนี้ใช้งานได้เฉพาะ SALES เท่านั้น')";
+        echo "</script>";
+
+        header("refresh:0; url=".base_url('login'));
+        exit();
       }
 
 
@@ -125,17 +137,12 @@ class Login_model extends CI_Model
         "status" => "Activated"
       );
 
-      if($this->db->insert("member_new" , $verifyUser)){
+      if ($this->db->insert("member_new", $verifyUser)) {
         return true;
-      }else{
+      } else {
         return false;
       }
-
-
-
     }
-
-
   }
 }
 // End model

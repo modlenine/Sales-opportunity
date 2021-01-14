@@ -22,15 +22,16 @@
         <div class="row">
             <div class="col-md-12 bg-white p-3">
                 <div class="card-body" style="border:2px solid #1265A8;">
-                    <h2 class="" style="color:#1265A8;"><u>เพิ่มรายการโปรเจคใหม่</u></h2>
-                    <form action="<?= base_url('savedata.html') ?>" method="post" class="needs-validation" novalidate>
+                    <h2 class="" style="color:#1265A8;"><u>เพิ่มรายการ Opportunity</u></h2>
+
+                    <form action="<?=base_url('savedata.html')?>" method="post" class="needs-validation" novalidate autocomplete="off">
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="position-relative form-group">
                                     <label class="">รายละเอียดงาน</label>
                                     <input name="m_detail" id="m_detail" placeholder="กรุณาระบุรายละเอียดงาน" type="text" class="form-control" required>
                                     <div class="invalid-feedback">กรุณาระบุรายละเอียดงาน</div>
-                                
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -56,7 +57,7 @@
                                         <?= getProductGroup() ?>
                                     </select>
                                     <div class="invalid-feedback">กรุณาเลือกกลุ่มสินค้า</div>
-                         
+
                                 </div>
                             </div>
                         </div>
@@ -64,7 +65,7 @@
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="position-relative form-group">
-                                    <label class="">ชื่อสินค้า</label>
+                                    <label class="">สาลี่ Product</label>
                                     <input name="m_productname" id="m_productname" type="text" class="form-control">
                                 </div>
                             </div>
@@ -76,7 +77,7 @@
                                         <?= getDistance() ?>
                                     </select>
                                     <div class="invalid-feedback">กรุณาเลือกหลักบอกระยะทาง</div>
-                       
+
                                 </div>
                             </div>
                         </div>
@@ -98,13 +99,13 @@
                                         <?= getSuccess() ?>
                                     </select>
                                     <div class="invalid-feedback">กรุณาเลือกเปอร์เซ็นที่คาดว่าจะสำเร็จ</div>
-                      
+
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="position-relative form-group">
                                     <label class="">Idea price (บาท/กิโลกรัม)</label>
-                                    <input name="m_ideaprice" id="m_ideaprice" type="text" class="form-control">
+                                    <input name="m_ideaprice" id="m_ideaprice" type="text" class="form-control" required>
                                     <div id="notify_m_ideaprice"></div>
                                 </div>
                             </div>
@@ -175,7 +176,7 @@
                                         <?= getJobstatus() ?>
                                     </select>
                                     <div class="invalid-feedback">กรุณาระบุสถานะของงาน</div>
-           
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -186,7 +187,7 @@
                                         <?= getWorktype() ?>
                                     </select>
                                     <div class="invalid-feedback">กรุณาระบุประเภทของงาน</div>
-                   
+
                                 </div>
                             </div>
                         </div>
