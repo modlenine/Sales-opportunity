@@ -24,7 +24,7 @@
                 <div class="card-body" style="border:2px solid #1265A8;">
                     <h2 class="" style="color:#1265A8;"><u>เพิ่มรายการ Opportunity</u></h2>
 
-                    <form action="<?=base_url('savedata.html')?>" method="post" class="needs-validation" novalidate autocomplete="off">
+                    <form action="<?= base_url('savedata.html') ?>" method="post" class="needs-validation" novalidate autocomplete="off">
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="position-relative form-group">
@@ -196,6 +196,7 @@
                         <button type="submit" id="btnAdd" name="btnAdd" class="mt-2 btn btn-primary">บันทึกข้อมูล</button>
                     </form>
                     <script>
+                        
                         // Example starter JavaScript for disabling form submissions if there are invalid fields
                         (function() {
                             'use strict';

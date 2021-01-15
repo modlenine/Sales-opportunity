@@ -144,6 +144,46 @@ function getSubFormNo()
 
 
 
+function getCusVisitNo()
+{
+    $obj = new getfn();
+    // check formno ซ้ำในระบบ
+    $checkRowdata = $obj->gci()->db->query("SELECT
+    csvr_no FROM sop_customervisit ORDER BY csvr_autoid DESC LIMIT 1 
+    ");
+    $result = $checkRowdata->num_rows();
+
+    $cutYear = substr(date("Y"), 2, 2);
+    $getMonth = substr(date("m"), 0, 2);
+    $formno = "";
+    if ($result == 0) {
+        $formno = "CVR" . $cutYear . $getMonth . "001";
+    } else {
+
+        $getFormno = $checkRowdata->row()->csvr_no; //อันนี้ดึงเอามาทั้งหมด CRF2003001
+        $cutGetFormno = substr($getFormno, 3, 2); //อันนี้ตัดเอาเฉพาะปีจาก 2020 ตัดเหลือ 20
+        $cutNo = substr($getFormno, 7, 3); //อันนี้ตัดเอามาแค่ตัวเลขจาก CRF2003001 ตัดเหลือ 001
+        $cutNo++;
+
+        if ($cutNo < 10) {
+            $cutNo = "00" . $cutNo;
+        } else if ($cutNo < 100) {
+            $cutNo = "0" . $cutNo;
+        }
+
+        if ($cutGetFormno != $cutYear) {
+            $formno = "CVR" . $cutYear . $getMonth . $cutNo;
+        } else {
+            $formno = "CVR" . $cutGetFormno . $getMonth . $cutNo;
+        }
+    }
+
+    return $formno;
+}
+
+
+
+
 function getProductGroup()
 {
     $sql = getfn()->db->query("SELECT * FROM sop_productgroup ORDER BY p_groupname asc");
@@ -401,6 +441,56 @@ function getDb()
     db");
 
     return $sql->row();
+}
+
+
+function sqlCusvisitFull($cusformno)
+{
+    $sql = getfn()->db->query("SELECT
+    sop_customervisit.csvr_autoid,
+    sop_customervisit.csvr_no,
+    sop_customervisit.csvr_cusname,
+    sop_customervisit.csvr_country,
+    sop_customervisit.csvr_business,
+    sop_customervisit.csvr_datetime,
+    sop_customervisit.csvr_contact,
+    sop_customervisit.csvr_salee,
+    sop_customervisit.csvr_tel,
+    sop_customervisit.csvr_fax,
+    sop_customervisit.csvr_email,
+    sop_customervisit.csvr_discussion,
+    sop_customervisit.csvr_action,
+    sop_customervisit.csvr_salesname,
+    sop_customervisit.csvr_salesecode,
+    sop_customervisit.csvr_year,
+    sop_customervisit.csvr_month,
+    sop_customervisit.csvr_day
+    FROM
+    sop_customervisit
+    WHERE csvr_no = '$cusformno' ");
+    return $sql;
+}
+
+function getSubCus($cusformno)
+{
+    $sql = getfn()->db->query("SELECT
+    sop_customervisit_sub.csvrs_autoid,
+    sop_customervisit_sub.csvrs_cusvisitno,
+    sop_customervisit_sub.csvrs_type,
+    sop_customervisit_sub.csvrs_saleeproduct,
+    sop_customervisit_sub.csvrs_qty1,
+    sop_customervisit_sub.csvrs_competition,
+    sop_customervisit_sub.csvrs_qty2,
+    sop_customervisit_sub.csvrs_remark
+    FROM
+    sop_customervisit_sub
+    WHERE csvrs_cusvisitno = '$cusformno' ");
+    return $sql;
+}
+
+function gCusVFull($cusformno)
+{
+    return sqlCusvisitFull($cusformno)->row();
 }
 
 // Query Zone Query Zone Query Zone Query Zone Query Zone Query Zone

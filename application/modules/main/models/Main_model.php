@@ -428,11 +428,13 @@ class Main_model extends CI_Model
 
 
 
-    // Customers zone Customers zone Customers zone
+// Customers zone Customers zone Customers zone
+// Customers zone Customers zone Customers zone
+// Customers zone Customers zone Customers zone
     public function getCustomerlist()
     {
         // DB table to use
-        $table = 'projectlist';
+        $table = 'customervisitlist';
         // $table = <<<EOT
         // (
         //     select * from listdefault
@@ -440,7 +442,7 @@ class Main_model extends CI_Model
         // EOT;
 
         // Table's primary key
-        $primaryKey = 'm_autoid';
+        $primaryKey = 'csvr_autoid';
 
         // Array of database columns which should be read and sent back to DataTables.
         // The `db` parameter represents the column name in the database, while the `dt`
@@ -449,22 +451,23 @@ class Main_model extends CI_Model
 
         $columns = array(
             array(
-                'db' => 'm_procode', 'dt' => 0,
+                'db' => 'csvr_no', 'dt' => 0,
                 'formatter' => function ($d, $row) {
 
-                    return '<b><a href="' . base_url('viewfulldata.html/') . $d . '">' . $d . '</a></b>'; //or any other format you require
+                    return '<b><a href="' . base_url('cusvisitview.html/') . $d . '">' . $d . '</a></b>'; //or any other format you require
                 }
             ),
             array(
-                'db' => 'm_datetime_create', 'dt' => 1,
+                'db' => 'csvr_datetime', 'dt' => 1,
                 'formatter' => function ($d, $row) {
                     return conDateTimeFromDb($d);
                 }
             ),
-            array('db' => 'm_detail', 'dt' => 2),
-            array('db' => 'm_customer', 'dt' => 3),
-            array('db' => 'm_owner', 'dt' => 4),
-            array('db' => 'm_productgroup', 'dt' => 5)
+            array('db' => 'csvr_cusname', 'dt' => 2),
+            array('db' => 'csvr_business', 'dt' => 3),
+            array('db' => 'csvr_tel', 'dt' => 4),
+            array('db' => 'csvr_email', 'dt' => 5),
+            array('db' => 'csvr_salesname', 'dt' => 6)
         );
 
         // SQL server connection information
@@ -485,7 +488,7 @@ class Main_model extends CI_Model
         $deptcode = getUser()->DeptCode;
         if (getUser()->ecode != "M0051" || getUser()->ecode != "M0112" || getUser()->ecode != "M1809") {
             echo json_encode(
-                SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "m_owner = '$ecode' ")
+                SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "csvr_salesecode = '$ecode' ")
             );
         } else if (getUser()->posi == 75) {
             echo json_encode(
@@ -493,6 +496,122 @@ class Main_model extends CI_Model
             );
         }
     }
+
+
+
+    // Customer save data
+    public function savedata_customervisit()
+    {
+        if(isset($_POST['btnAddCusvisit'])){
+
+            $cusvisiNo = getCusVisitNo();
+
+            $condate = date_create($this->input->post("csvr_datetime"));
+            $conYear = date_format($condate , "Y");
+            $conMonth = date_format($condate , "m");
+            $conDay = date_format($condate , "d");
+
+            // save main data
+            $cusvisit = array(
+                "csvr_no" => $cusvisiNo,
+                "csvr_cusname" => $this->input->post("csvr_cusname"),
+                "csvr_country" => $this->input->post("csvr_country"),
+                "csvr_business" => $this->input->post("csvr_business"),
+                "csvr_datetime" => $this->input->post("csvr_datetime"),
+                "csvr_contact" => $this->input->post("csvr_contact"),
+                "csvr_salee" => $this->input->post("csvr_salee"),
+                "csvr_tel" => $this->input->post("csvr_tel"),
+                "csvr_fax" => $this->input->post("csvr_fax"),
+                "csvr_email" => $this->input->post("csvr_email"),
+                "csvr_discussion" => $this->input->post("csvr_discussion"),
+                "csvr_action" => $this->input->post("csvr_action"),
+                "csvr_salesname" => $this->input->post("csvr_salesname"),
+                "csvr_salesecode" => $this->input->post("csvr_salesecode"),
+                "csvr_year" =>  $conYear,
+                "csvr_month" => $conMonth,
+                "csvr_day" =>  $conDay
+            );
+
+
+            // Save customer information
+            $csvrs_typel = $this->input->post("csvrs_type");
+            foreach($csvrs_typel as $key => $csvrs_typels){
+                $csvrsarray = array(
+                    "csvrs_cusvisitno" => $cusvisiNo,
+                    "csvrs_type" => $csvrs_typels,
+                    "csvrs_saleeproduct" => $this->input->post("csvrs_saleeproduct")[$key],
+                    "csvrs_qty1" => $this->input->post("csvrs_qty1")[$key],
+                    "csvrs_competition" => $this->input->post("csvrs_competition")[$key],
+                    "csvrs_qty2" => $this->input->post("csvrs_qty2")[$key],
+                    "csvrs_remark" => $this->input->post("csvrs_remark")[$key]
+                );
+                $this->db->insert("sop_customervisit_sub" , $csvrsarray);
+            }
+
+            if($this->db->insert("sop_customervisit" , $cusvisit)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+
+
+    public function savedata_customervisitEdit($cno)
+    {
+        if(isset($_POST['btnEditCusvisit'])){
+
+            // save main data
+            $cusvisit = array(
+
+                "csvr_cusname" => $this->input->post("csvr_cusname"),
+                "csvr_country" => $this->input->post("csvr_country"),
+                "csvr_business" => $this->input->post("csvr_business"),
+                "csvr_contact" => $this->input->post("csvr_contact"),
+                "csvr_salee" => $this->input->post("csvr_salee"),
+                "csvr_tel" => $this->input->post("csvr_tel"),
+                "csvr_fax" => $this->input->post("csvr_fax"),
+                "csvr_email" => $this->input->post("csvr_email"),
+                "csvr_discussion" => $this->input->post("csvr_discussion"),
+                "csvr_action" => $this->input->post("csvr_action"),
+                "csvr_datetime_modify" => date("Y-m-d H:i:s")
+            );
+
+
+            // Save customer information
+            $csvrs_typel = $this->input->post("csvrs_type");
+            if($csvrs_typel != ""){
+                foreach($csvrs_typel as $key => $csvrs_typels){
+                    $csvrsarray = array(
+                        "csvrs_cusvisitno" => $cno,
+                        "csvrs_type" => $csvrs_typels,
+                        "csvrs_saleeproduct" => $this->input->post("csvrs_saleeproduct")[$key],
+                        "csvrs_qty1" => $this->input->post("csvrs_qty1")[$key],
+                        "csvrs_competition" => $this->input->post("csvrs_competition")[$key],
+                        "csvrs_qty2" => $this->input->post("csvrs_qty2")[$key],
+                        "csvrs_remark" => $this->input->post("csvrs_remark")[$key]
+                    );
+                    $this->db->insert("sop_customervisit_sub" , $csvrsarray);
+                }
+            }else{
+                
+            }
+            
+
+            $this->db->where("csvr_no" , $cno);
+            if($this->db->update("sop_customervisit" , $cusvisit)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+
+// Customers zone Customers zone Customers zone
+// Customers zone Customers zone Customers zone
+// Customers zone Customers zone Customers zone
 
 
 

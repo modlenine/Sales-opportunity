@@ -55,6 +55,10 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
+    <!-- Date picker -->
+    <script src="<?= base_url() ?>assets/dist/zebra_datepicker.min.js"></script>
+    <link rel="stylesheet" href="<?= base_url() ?>assets/dist/css/default/zebra_datepicker.min.css" type="text/css" />
+
 
 
     <style>
@@ -128,13 +132,12 @@
             width: 100% !important;
         }
 
-        table {
-            margin: 0 auto;
-            width: 100%;
-            clear: both;
-            border-collapse: collapse;
-            table-layout: fixed; 
-            word-wrap: break-word;
+        .cuttext {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>

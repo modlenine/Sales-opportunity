@@ -175,7 +175,7 @@ class Main extends MX_Controller
         );
 
         getHead();
-        getContent("report" , $data);
+        getContent("report", $data);
         getFooter();
     }
     // Function call page
@@ -216,7 +216,7 @@ class Main extends MX_Controller
 
         $data['rs_report'] = $this->main->reportlist();
 
-        $this->load->view("report_result" , $data);
+        $this->load->view("report_result", $data);
     }
 
     public function reportlistDate()
@@ -225,8 +225,7 @@ class Main extends MX_Controller
 
         $data['rs_report'] = $this->main->reportlistDate();
 
-        $this->load->view("report_result" , $data);
-
+        $this->load->view("report_result", $data);
     }
     // Load Zone Load Zone Load Zone
     // Load Zone Load Zone Load Zone
@@ -352,6 +351,97 @@ class Main extends MX_Controller
         getFooter();
     }
 
+    public function savedata_customervisit()
+    {
+        checkSession();
+
+        if ($this->main->savedata_customervisit() == true) {
+            header("refresh:0; url=".base_url('cusvisit_list.html'));
+        } else {
+            echo "<script>";
+            echo "alert('บันทึกข้อมูลไม่สำเร็จ')";
+            echo "</script>";
+            exit;
+        }
+    }
+
+
+    public function savedata_customervisitEdit($cno)
+    {
+        checkSession();
+
+        if ($this->main->savedata_customervisitEdit($cno) == true) {
+            header("refresh:0; url=".base_url('cusvisit_list.html'));
+        } else {
+            echo "<script>";
+            echo "alert('บันทึกข้อมูลไม่สำเร็จ')";
+            echo "</script>";
+            exit;
+        }
+    }
+
+
+    public function viewfullCusvisit($cusformno)
+    {
+        $data = array(
+            "title" => "หน้าแสดงข้อมูลรายการ Customer Visit Report",
+            "cno" => $cusformno,
+            "csvr_cusname" => gCusVFull($cusformno)->csvr_cusname,
+            "csvr_country" => gCusVFull($cusformno)->csvr_country,
+            "csvr_business" => gCusVFull($cusformno)->csvr_business,
+            "csvr_datetime" => conDateTimeFromDb(gCusVFull($cusformno)->csvr_datetime),
+            "csvr_contact" => gCusVFull($cusformno)->csvr_contact,
+            "csvr_salee" => gCusVFull($cusformno)->csvr_salee,
+            "csvr_tel" => gCusVFull($cusformno)->csvr_tel,
+            "csvr_fax" => gCusVFull($cusformno)->csvr_fax,
+            "csvr_email" => gCusVFull($cusformno)->csvr_email,
+            "csvr_discussion" => gCusVFull($cusformno)->csvr_discussion,
+            "csvr_action" => gCusVFull($cusformno)->csvr_action,
+
+
+        );
+        getHead();
+        getContent("viewFullCusvisit" , $data);
+        getFooter();
+    }
+
+
+    public function editCusvisit($cusformno)
+    {
+        $data = array(
+            "title" => "หน้าแสดง การแก้ไข ข้อมูลรายการ Customer Visit Report",
+            "cno" => $cusformno,
+            "csvr_cusname" => gCusVFull($cusformno)->csvr_cusname,
+            "csvr_country" => gCusVFull($cusformno)->csvr_country,
+            "csvr_business" => gCusVFull($cusformno)->csvr_business,
+            "csvr_datetime" => conDateTimeFromDb(gCusVFull($cusformno)->csvr_datetime),
+            "csvr_contact" => gCusVFull($cusformno)->csvr_contact,
+            "csvr_salee" => gCusVFull($cusformno)->csvr_salee,
+            "csvr_tel" => gCusVFull($cusformno)->csvr_tel,
+            "csvr_fax" => gCusVFull($cusformno)->csvr_fax,
+            "csvr_email" => gCusVFull($cusformno)->csvr_email,
+            "csvr_discussion" => gCusVFull($cusformno)->csvr_discussion,
+            "csvr_action" => gCusVFull($cusformno)->csvr_action,
+
+
+        );
+        getHead();
+        getContent("editCusvisit" , $data);
+        getFooter();
+    }
+
+    public function deleteCusinform()
+    {
+        $rowid = "";
+        $rowid = $this->input->post("rowid");
+
+        $this->db->where("csvrs_autoid" , $rowid);
+        $this->db->delete("sop_customervisit_sub");
+
+        echo "delete success";
+
+    }
+
 
 
 
@@ -387,6 +477,10 @@ class Main extends MX_Controller
 
             $dateCon++;
         }
+    }
+    public function map()
+    {
+        $this->load->view("map");
     }
 }
 /* End of file Controllername.php */

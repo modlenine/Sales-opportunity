@@ -83,12 +83,11 @@
                     <!-- Forecast Zone -->
 
                     <!-- Follow Zone -->
-                    <td>
+                    <td class="cuttext">
                         <?php foreach (getFollow($rs->ms_procode) as $frss) { 
-                            $strtitle = iconv_substr($frss->trn_followdetail, 0, 20, "UTF-8");
-                            $resultCut = $strtitle . "...";    
+                               
                         ?>
-                            <?= $resultCut . "<br>" ?>
+                            <?= $frss->trn_followdetail . "<br>" ?>
                         <?php }; ?>
                     </td>
 

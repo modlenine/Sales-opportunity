@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Customer visit report</title>
+
+    <style>
+        .dataTables_filter,
+        .dataTables_length,
+        .dataTables_info,
+        .dataTables_paginate {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,7 +24,7 @@
         <!-- Subcontent section -->
         <div class="row">
             <div class="col-md-12 bg-white p-3">
-                <a href="<?= base_url('projectlist.html') ?>" class="button button-mini button-3d button-circle button-teal"><i class="icon-chevron-sign-left"></i>กลับ</a>
+                <a href="<?= base_url('cusvisit_list.html') ?>" class="button button-mini button-3d button-circle button-teal"><i class="icon-chevron-sign-left"></i>กลับ</a>
             </div>
         </div><br>
 
@@ -23,22 +32,23 @@
             <div class="col-md-12 bg-white p-3">
                 <div class="card-body">
                     <h2 class="" style="color:#000;text-align:center;"><u>CUSTOMER VISIT REPORT</u></h2>
-                    <form action="<?= base_url('savedata.html') ?>" method="post" class="needs-validation" novalidate>
+
+                    <form action="<?= base_url('savedata_cus.html') ?>" method="post" class="needs-validation" novalidate autocomplete="off">
 
                         <div class="card-body" style="border:2px solid #000;">
                             <div class="form-row">
                                 <div class="col-md-8">
                                     <div class="position-relative form-group">
                                         <label class="">Customer Name:</label>
-                                        <input name="m_detail" id="m_detail" placeholder="" type="text" class="form-control" required>
-                                        <div class="invalid-feedback">กรุณาระบุรายละเอียดงาน</div>
+                                        <input name="csvr_cusname" id="csvr_cusname" placeholder="" type="text" class="form-control" required>
+                                        <div class="invalid-feedback">กรุณาระบุ Customer Name</div>
 
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="position-relative form-group">
-                                        <label for="examplePassword11" class="">Country</label>
-                                        <input name="m_customer" id="m_customer" placeholder="" type="text" class="form-control">
+                                        <label for="" class="">Country</label>
+                                        <input name="csvr_country" id="csvr_country" placeholder="" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -48,15 +58,15 @@
                                 <div class="col-md-8">
                                     <div class="position-relative form-group">
                                         <label class="">Business Type:</label>
-                                        <input name="m_detail" id="m_detail" placeholder="" type="text" class="form-control" required>
-                                        <div class="invalid-feedback">กรุณาระบุรายละเอียดงาน</div>
+                                        <input name="csvr_business" id="csvr_business" placeholder="" type="text" class="form-control" required>
+                                        <div class="invalid-feedback">กรุณาระบุ Business Type</div>
 
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="position-relative form-group">
-                                        <label for="examplePassword11" class="">Date / Time:</label>
-                                        <input name="m_customer" id="m_customer" placeholder="" type="text" class="form-control">
+                                        <label for="" class="">Date / Time:</label>
+                                        <input name="csvr_datetime" id="csvr_datetime" placeholder="" type="text" class="form-control datepicker">
                                     </div>
                                 </div>
                             </div>
@@ -66,32 +76,38 @@
                                 <div class="col-md-8">
                                     <div class="position-relative form-group">
                                         <label class="">Contact Persons / Position:</label>
-                                        <textarea name="" id="" cols="30" rows="3" class="form-control"></textarea>
-                                        <div class="invalid-feedback">กรุณาระบุรายละเอียดงาน</div>
+                                        <textarea name="csvr_contact" id="csvr_contact" cols="30" rows="3" class="form-control" required></textarea>
+                                        <div class="invalid-feedback">กรุณาระบุ Contact Persons / Position</div>
 
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="position-relative form-group">
-                                        <label for="examplePassword11" class="">Salee participants:</label>
-                                        <textarea name="" id="" cols="30" rows="3" class="form-control"></textarea>
+                                        <label for="" class="">Salee participants:</label>
+                                        <textarea name="csvr_salee" id="csvr_salee" cols="30" rows="3" class="form-control" required></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="position-relative form-group">
                                         <label class="">Tel No:</label>
-                                        <input name="m_detail" id="m_detail" placeholder="" type="text" class="form-control" required>
-                                        <div class="invalid-feedback">กรุณาระบุรายละเอียดงาน</div>
+                                        <input name="csvr_tel" id="csvr_tel" placeholder="" type="text" class="form-control" required>
+                                        <div class="invalid-feedback">กรุณาระบุ Tel No</div>
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="position-relative form-group">
                                         <label class="">Fax No:</label>
-                                        <input name="m_detail" id="m_detail" placeholder="" type="text" class="form-control" required>
-                                        <div class="invalid-feedback">กรุณาระบุรายละเอียดงาน</div>
+                                        <input name="csvr_fax" id="csvr_fax" placeholder="" type="text" class="form-control">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Email:</label>
+                                        <input name="csvr_email" id="csvr_email" placeholder="" type="text" class="form-control">
 
                                     </div>
                                 </div>
@@ -100,28 +116,23 @@
 
                         <div style="font-size:16px;">1.Customer Information / Competitor Product Usage: ข้อมูลของลูกค้า สินค้าที่ลูกค้าใช้อยู่</div>
                         <div class="card-body">
+                            <div class="col-md-12 form-group">
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#addCusProUse"><i class="fas fa-plus-circle advAddDetail" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล"></i></a>
+                                <!-- <i class="fas fa-trash-alt advDelDetail"></i> -->
+                            </div>
                             <div class="table-responsive">
                                 <table id="cusViDetail" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Type</th>
                                             <th>Salee Products</th>
-                                            <th>Q'tr(mt/year)</th>
-                                            <th>Cpmpetition Products</th>
+                                            <th>Q'ty(mt/year)</th>
+                                            <th>Competition Products</th>
                                             <th>Q'ty(mt/year)</th>
                                             <th>Remark</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
-
-                                    <tr id="cleartb">
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                        <td>test</td>
-                                    </tr>
-
                                 </table>
                             </div>
                         </div><br>
@@ -132,8 +143,8 @@
                                 <div class="col-md-12">
                                     <div class="position-relative form-group">
 
-                                        <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
-                                        <div class="invalid-feedback">กรุณาระบุรายละเอียดงาน</div>
+                                        <textarea name="csvr_discussion" id="csvr_discussion" cols="30" rows="5" class="form-control" required></textarea>
+                                        <div class="invalid-feedback">กรุณาระบุ รายละเอียด หรือ บทสรุปที่คุยกับลูกค้า</div>
 
                                     </div>
                                 </div>
@@ -146,14 +157,16 @@
                                 <div class="col-md-12">
                                     <div class="position-relative form-group">
 
-                                        <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
-                                        <div class="invalid-feedback">กรุณาระบุรายละเอียดงาน</div>
+                                        <textarea name="csvr_action" id="csvr_action" cols="30" rows="5" class="form-control" required></textarea>
+                                        <div class="invalid-feedback">กรุณาระบุ สิ่งที่ต้องทำต่อ และ กำหนดติดตามงาน</div>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <input hidden type="text" name="csvr_salesname" id="csvr_salesname" value="<?=getUser()->Fname." ".getUser()->Lname?>">
+                        <input hidden type="text" name="csvr_salesecode" id="csvr_salesecode" value="<?=getUser()->ecode?>">
 
 
 
@@ -164,19 +177,15 @@
 
 
 
-
-
-
-
-
-
-
-                        <button type="submit" id="btnAdd" name="btnAdd" class="mt-2 btn btn-primary">บันทึกข้อมูล</button>
+                        <button type="submit" id="btnAddCusvisit" name="btnAddCusvisit" class="mt-2 btn btn-primary">บันทึกข้อมูล</button>
                     </form>
                     <script>
                         $(document).ready(function() {
                             $('#cusViDetail').DataTable({
                                 "columnDefs": [{
+                                        targets: "_all",
+                                        orderable: false
+                                    }, {
                                         "width": "5%",
                                         "targets": 0
                                     },
@@ -199,31 +208,120 @@
                                     {
                                         "width": "8%",
                                         "targets": 5
+                                    },
+                                    {
+                                        "width": "8%",
+                                        "targets": 6
                                     }
                                 ]
                             });
+
+
+                            // assuming the controls you want to attach the plugin to
+                            // have the "datepicker" class set
+                            $('input.datepicker').Zebra_DatePicker({
+                                format: 'Y-m-d H:i'
+                            });
+
+
+
+                            // Function เพิ่มข้อมูลจาก Modal ลง Table
+                            var count = 0;
+                            $(document).on('click', '#btnAddCusUse', function() {
+                                $('.dataTables_empty').remove();
+
+                                var csv_type = $('#csv_type').val();
+                                var csv_saleeproduct = $('#csv_saleeproduct').val();
+                                var csv_qty1 = $('#csv_qty1').val();
+                                var csv_competition = $('#csv_competition').val();
+                                var csv_qty2 = $('#csv_qty2').val();
+                                var csv_remark = $('#csv_remark').val();
+
+                                count = count + 1;
+                                output = '<tr id="row_' + count + '">';
+
+                                output += '<td>' + csv_type + ' <input type="hidden" name="csvrs_type[]" id="csvrs_type' + count + '" class="first_name" value="' + csv_type + '" /></td>';
+
+                                output += '<td>' + csv_saleeproduct + ' <input type="hidden" name="csvrs_saleeproduct[]" id="csvrs_saleeproduct' + count + '" value="' + csv_saleeproduct + '" /></td>';
+
+                                output += '<td>' + csv_qty1 + ' <input type="hidden" name="csvrs_qty1[]" id="csvrs_qty1' + count + '" value="' + csv_qty1 + '" /></td>';
+
+                                output += '<td>' + csv_competition + ' <input type="hidden" name="csvrs_competition[]" id="csvrs_competition' + count + '" value="' + csv_competition + '" /></td>';
+
+                                output += '<td class="price">' + csv_qty2 + ' <input type="hidden" name="csvrs_qty2[]" id="csvrs_qty2' + count + '" value="' + csv_qty2 + '" /></td>';
+
+                                output += '<td class="price">' + csv_remark + ' <input type="hidden" name="csvrs_remark[]" id="csvrs_remark' + count + '" value="' + csv_remark + '" /></td>';
+
+                                output += '<td><button type="button" name="remove_details" class="btn btn-danger btn-xs remove_details" id="' + count + '">Remove</button></td>';
+                                output += '</tr>';
+
+                                $('#cusViDetail tbody').append(output);
+
+
+                                $('#csv_type').val('');
+                                $('#csv_saleeproduct').val('');
+                                $('#csv_qty1').val('');
+                                $('#csv_competition').val('');
+                                $('#csv_qty2').val('');
+                                $('#csv_remark').val('');
+
+
+                            });
+
+                            // Function เพิ่มข้อมูลจาก Modal ลง Table
+
+
+
+
+                            $(document).on('click', '.remove_details', function() {
+                                var row_id = $(this).attr("id");
+                                if (confirm("คุณต้องการลบรายชื่อนี้ออกจากรายการใช่หรือไม่ ?")) {
+                                    $('#row_' + row_id + '').remove();
+
+                                } else {
+                                    return false;
+                                }
+                            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         });
 
 
 
                         // Example starter JavaScript for disabling form submissions if there are invalid fields
-                        (function() {
-                            'use strict';
-                            window.addEventListener('load', function() {
-                                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                                var forms = document.getElementsByClassName('needs-validation');
-                                // Loop over them and prevent submission
-                                var validation = Array.prototype.filter.call(forms, function(form) {
-                                    form.addEventListener('submit', function(event) {
-                                        if (form.checkValidity() === false) {
-                                            event.preventDefault();
-                                            event.stopPropagation();
-                                        }
-                                        form.classList.add('was-validated');
-                                    }, false);
-                                });
-                            }, false);
-                        })();
+                        // (function() {
+                        //     'use strict';
+                        //     window.addEventListener('load', function() {
+                        //         // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                        //         var forms = document.getElementsByClassName('needs-validation');
+                        //         // Loop over them and prevent submission
+                        //         var validation = Array.prototype.filter.call(forms, function(form) {
+                        //             form.addEventListener('submit', function(event) {
+                        //                 if (form.checkValidity() === false) {
+                        //                     event.preventDefault();
+                        //                     event.stopPropagation();
+                        //                 }
+                        //                 form.classList.add('was-validated');
+                        //             }, false);
+                        //         });
+                        //     }, false);
+                        // })();
                     </script>
                 </div>
             </div>

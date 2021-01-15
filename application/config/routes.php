@@ -75,6 +75,10 @@ $route['usersetting.html'] = 'main/usersetting';
 // Customer zone
 $route['cusvisit_list.html'] = 'main/customerslist';
 $route['addcusvisit.html'] = 'main/addcustomervisit';
+$route['savedata_cus.html'] = 'main/savedata_customervisit';
+$route['cusvisitview.html/(:any)'] = 'main/viewfullCusvisit/$1';
+$route['editcusvisit.html/(:any)'] = 'main/editCusvisit/$1';
+$route['savedata_cusEdit.html/(:any)'] = 'main/savedata_customervisitEdit/$1';
 
 
 // Upload

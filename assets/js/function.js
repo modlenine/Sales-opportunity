@@ -194,3 +194,31 @@ function load_reportDate(date_start, date_end) {
 // Report Zone Report Zone Report Zone
 // Report Zone Report Zone Report Zone
 // Report Zone Report Zone Report Zone
+
+
+
+
+
+// Customer Zone  Customer Zone  Customer Zone 
+// Customer Zone  Customer Zone  Customer Zone 
+// Customer Zone  Customer Zone  Customer Zone 
+
+function deleteCusinform(rowid)
+{
+    $.ajax({
+        url:"/intsys/sop/main/deleteCusinform",
+        method:"post",
+        data:{
+            rowid: rowid
+        },
+        success:function(data){
+            console.log();
+            window.location.reload();
+        }
+    });
+}
+
+
+// Customer Zone  Customer Zone  Customer Zone 
+// Customer Zone  Customer Zone  Customer Zone 
+// Customer Zone  Customer Zone  Customer Zone 
