@@ -82,7 +82,7 @@ class Main_model extends CI_Model
         //         SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
         //     );
         // }
-        if ($ecode == "M1848" || $ecode == "M1809" || $ecode == "M0051" || $ecode == "M0112") {
+        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112") {
             echo json_encode(
                 SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
             );
@@ -428,9 +428,9 @@ class Main_model extends CI_Model
 
 
 
-// Customers zone Customers zone Customers zone
-// Customers zone Customers zone Customers zone
-// Customers zone Customers zone Customers zone
+    // Customers zone Customers zone Customers zone
+    // Customers zone Customers zone Customers zone
+    // Customers zone Customers zone Customers zone
     public function getCustomerlist()
     {
         // DB table to use
@@ -486,13 +486,18 @@ class Main_model extends CI_Model
 
         $ecode = getUser()->ecode;
         $deptcode = getUser()->DeptCode;
-        if (getUser()->ecode != "M0051" || getUser()->ecode != "M0112" || getUser()->ecode != "M1809") {
-            echo json_encode(
-                SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "csvr_salesecode = '$ecode' ")
-            );
-        } else if (getUser()->posi == 75) {
+
+        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112") {
             echo json_encode(
                 SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
+            );
+        } else if (getUser()->posi > 75) {
+            echo json_encode(
+                SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
+            );
+        } else {
+            echo json_encode(
+                SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "csvr_salesecode = '$ecode' ")
             );
         }
     }
@@ -502,14 +507,14 @@ class Main_model extends CI_Model
     // Customer save data
     public function savedata_customervisit()
     {
-        if(isset($_POST['btnAddCusvisit'])){
+        if (isset($_POST['btnAddCusvisit'])) {
 
             $cusvisiNo = getCusVisitNo();
 
             $condate = date_create($this->input->post("csvr_datetime"));
-            $conYear = date_format($condate , "Y");
-            $conMonth = date_format($condate , "m");
-            $conDay = date_format($condate , "d");
+            $conYear = date_format($condate, "Y");
+            $conMonth = date_format($condate, "m");
+            $conDay = date_format($condate, "d");
 
             // save main data
             $cusvisit = array(
@@ -534,23 +539,26 @@ class Main_model extends CI_Model
 
 
             // Save customer information
-            $csvrs_typel = $this->input->post("csvrs_type");
-            foreach($csvrs_typel as $key => $csvrs_typels){
-                $csvrsarray = array(
-                    "csvrs_cusvisitno" => $cusvisiNo,
-                    "csvrs_type" => $csvrs_typels,
-                    "csvrs_saleeproduct" => $this->input->post("csvrs_saleeproduct")[$key],
-                    "csvrs_qty1" => $this->input->post("csvrs_qty1")[$key],
-                    "csvrs_competition" => $this->input->post("csvrs_competition")[$key],
-                    "csvrs_qty2" => $this->input->post("csvrs_qty2")[$key],
-                    "csvrs_remark" => $this->input->post("csvrs_remark")[$key]
-                );
-                $this->db->insert("sop_customervisit_sub" , $csvrsarray);
+            if ($this->input->post("csvrs_type") != "") {
+                $csvrs_typel = $this->input->post("csvrs_type");
+                foreach ($csvrs_typel as $key => $csvrs_typels) {
+                    $csvrsarray = array(
+                        "csvrs_cusvisitno" => $cusvisiNo,
+                        "csvrs_type" => $csvrs_typels,
+                        "csvrs_saleeproduct" => $this->input->post("csvrs_saleeproduct")[$key],
+                        "csvrs_qty1" => $this->input->post("csvrs_qty1")[$key],
+                        "csvrs_competition" => $this->input->post("csvrs_competition")[$key],
+                        "csvrs_qty2" => $this->input->post("csvrs_qty2")[$key],
+                        "csvrs_remark" => $this->input->post("csvrs_remark")[$key]
+                    );
+                    $this->db->insert("sop_customervisit_sub", $csvrsarray);
+                }
             }
 
-            if($this->db->insert("sop_customervisit" , $cusvisit)){
+
+            if ($this->db->insert("sop_customervisit", $cusvisit)) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
@@ -560,7 +568,7 @@ class Main_model extends CI_Model
 
     public function savedata_customervisitEdit($cno)
     {
-        if(isset($_POST['btnEditCusvisit'])){
+        if (isset($_POST['btnEditCusvisit'])) {
 
             // save main data
             $cusvisit = array(
@@ -581,8 +589,8 @@ class Main_model extends CI_Model
 
             // Save customer information
             $csvrs_typel = $this->input->post("csvrs_type");
-            if($csvrs_typel != ""){
-                foreach($csvrs_typel as $key => $csvrs_typels){
+            if ($csvrs_typel != "") {
+                foreach ($csvrs_typel as $key => $csvrs_typels) {
                     $csvrsarray = array(
                         "csvrs_cusvisitno" => $cno,
                         "csvrs_type" => $csvrs_typels,
@@ -592,26 +600,25 @@ class Main_model extends CI_Model
                         "csvrs_qty2" => $this->input->post("csvrs_qty2")[$key],
                         "csvrs_remark" => $this->input->post("csvrs_remark")[$key]
                     );
-                    $this->db->insert("sop_customervisit_sub" , $csvrsarray);
+                    $this->db->insert("sop_customervisit_sub", $csvrsarray);
                 }
-            }else{
-                
+            } else {
             }
-            
 
-            $this->db->where("csvr_no" , $cno);
-            if($this->db->update("sop_customervisit" , $cusvisit)){
+
+            $this->db->where("csvr_no", $cno);
+            if ($this->db->update("sop_customervisit", $cusvisit)) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
     }
 
 
-// Customers zone Customers zone Customers zone
-// Customers zone Customers zone Customers zone
-// Customers zone Customers zone Customers zone
+    // Customers zone Customers zone Customers zone
+    // Customers zone Customers zone Customers zone
+    // Customers zone Customers zone Customers zone
 
 
 
@@ -637,7 +644,7 @@ class Main_model extends CI_Model
                         $myear = date("Y");
 
                         $dateTimeCreate = date_create($data[0]);
-                        $conDateTimeCreate = date_format($dateTimeCreate , "Y-m-d");
+                        $conDateTimeCreate = date_format($dateTimeCreate, "Y-m-d");
 
                         $saveMasterTable = array(
                             "m_procode" => $projectno,
@@ -674,7 +681,7 @@ class Main_model extends CI_Model
                         $this->db->insert("sop_submaster", $saveSubMasterTable);
 
 
-                
+
 
                         // Import forecast
 
@@ -687,16 +694,16 @@ class Main_model extends CI_Model
                         $dataProject2 = date_create($data[0]);
                         $fyear = date_format($dataProject2, "Y");
 
-                        $y =1;
+                        $y = 1;
                         for ($i = 1; $i <= 3; $i++) {
 
-                            if($i == 1){
+                            if ($i == 1) {
                                 $use = $data[10];
                                 $money = $data[11];
-                            }else if($i == 2){
+                            } else if ($i == 2) {
                                 $use = $data[12];
                                 $money = $data[13];
-                            }else if($i == 3){
+                            } else if ($i == 3) {
                                 $use = $data[14];
                                 $money = $data[15];
                             }
@@ -710,7 +717,7 @@ class Main_model extends CI_Model
                                 "f_money" => $money,
                             );
                             $this->db->insert("sop_forcast", $saveForcase);
-                            
+
 
                             $getOnlyYear++;
                         }
@@ -724,10 +731,9 @@ class Main_model extends CI_Model
                             "trn_procode" => $projectno,
                             "trn_msid" => $subprojectno,
                             "trn_user_datetime_create" => $conDateTimeCreate
-                            
+
                         );
                         $this->db->insert("sop_transfollow", $saveComment);
-
                     }
 
                     fclose($handle);
@@ -743,57 +749,76 @@ class Main_model extends CI_Model
     }
 
 
-public function reportlist()
-{
+    public function reportlist()
+    {
+        $querywhere = '';
+        $ecode = getUser()->ecode;
 
-        $sql = $this->db->query("SELECT
-        sop_master.m_autoid,
-        sop_master.m_procode,
-        sop_master.m_detail,
-        sop_master.m_customer,
-        sop_master.m_owner,
-        sop_master.m_productgroup,
-        sop_master.m_distance,
-        sop_master.m_user_name,
-        sop_master.m_user_deptcode,
-        sop_master.m_user_deptname,
-        sop_master.m_user_ecode,
-        sop_master.m_datetime_create,
-        sop_master.m_datetime_modify,
-        sop_submaster.ms_autoid,
-        sop_submaster.ms_procode,
-        sop_submaster.ms_m_procode,
-        sop_submaster.ms_productname,
-        sop_submaster.ms_productuse,
-        sop_submaster.ms_percensuccess,
-        sop_submaster.ms_ideaprice,
-        sop_submaster.ms_jobstatus,
-        sop_submaster.ms_jobtype,
-        sop_submaster.ms_user_name,
-        sop_submaster.ms_user_deptcode,
-        sop_submaster.ms_user_deptname,
-        sop_submaster.ms_user_ecode,
-        sop_submaster.ms_user_datetime_create,
-        sop_submaster.ms_user_datetime_modify,
-        sop_submaster.ms_day,
-        sop_submaster.ms_month,
-        sop_submaster.ms_year,
-        sop_submaster.ms_status
-        FROM
-        sop_master
-        INNER JOIN sop_submaster ON sop_submaster.ms_m_procode = sop_master.m_procode ");
+        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112"){
+            $querywhere = '';
+        }else{
+            $querywhere = " WHERE m_owner = '$ecode' ";
+        }
 
-        return $sql->result();
-    
-}
+        $sql = "SELECT
+                sop_master.m_autoid,
+                sop_master.m_procode,
+                sop_master.m_detail,
+                sop_master.m_customer,
+                sop_master.m_owner,
+                sop_master.m_productgroup,
+                sop_master.m_distance,
+                sop_master.m_user_name,
+                sop_master.m_user_deptcode,
+                sop_master.m_user_deptname,
+                sop_master.m_user_ecode,
+                sop_master.m_datetime_create,
+                sop_master.m_datetime_modify,
+                sop_submaster.ms_autoid,
+                sop_submaster.ms_procode,
+                sop_submaster.ms_m_procode,
+                sop_submaster.ms_productname,
+                sop_submaster.ms_productuse,
+                sop_submaster.ms_percensuccess,
+                sop_submaster.ms_ideaprice,
+                sop_submaster.ms_jobstatus,
+                sop_submaster.ms_jobtype,
+                sop_submaster.ms_user_name,
+                sop_submaster.ms_user_deptcode,
+                sop_submaster.ms_user_deptname,
+                sop_submaster.ms_user_ecode,
+                sop_submaster.ms_user_datetime_create,
+                sop_submaster.ms_user_datetime_modify,
+                sop_submaster.ms_day,
+                sop_submaster.ms_month,
+                sop_submaster.ms_year,
+                sop_submaster.ms_status
+                FROM
+                sop_master
+                INNER JOIN sop_submaster ON sop_submaster.ms_m_procode = sop_master.m_procode $querywhere  ";
+
+        
+
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
 
 
-public function reportlistDate()
-{
-    $datestart = "";
-    $dateend ="";
-    $datestart = $this->input->post("date_start");
-    $dateend = $this->input->post("date_end");
+    public function reportlistDate()
+    {
+        $datestart = "";
+        $dateend = "";
+        $datestart = $this->input->post("date_start");
+        $dateend = $this->input->post("date_end");
+
+        $querywhere = '';
+        $ecode = getUser()->ecode;
+
+        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112"){
+            $querywhere = '';
+        }else{
+            $querywhere = " AND m_owner = '$ecode' ";
+        }
 
         $sql = $this->db->query("SELECT
         sop_master.m_autoid,
@@ -831,21 +856,9 @@ public function reportlistDate()
         FROM
         sop_master
         INNER JOIN sop_submaster ON sop_submaster.ms_m_procode = sop_master.m_procode
-        WHERE sop_master.m_datetime_create BETWEEN '$datestart 00:00:00' AND '$dateend 00:00:00' ");
+        WHERE sop_master.m_datetime_create BETWEEN '$datestart 00:00:00' AND '$dateend 00:00:00'  $querywhere  ");
 
         return $sql->result();
-    
-}
-
-
-
-
-
-
-
-
-
-
-
+    }
 }
 /* End of file ModelName.php */

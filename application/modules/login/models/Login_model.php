@@ -37,7 +37,7 @@ class Login_model extends CI_Model
       die();
     } else {
 
-      if ($checkuser->row()->DeptCode == 1006 || $checkuser->row()->DeptCode == 1002) {
+      if ($checkuser->row()->DeptCode == 1006 || $checkuser->row()->DeptCode == 1002 || $checkuser->row()->ecode == "M1848") {
         
 
         foreach ($checkuser->result_array() as $r) {
