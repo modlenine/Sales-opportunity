@@ -79,6 +79,7 @@ $route['savedata_cus.html'] = 'main/savedata_customervisit';
 $route['cusvisitview.html/(:any)'] = 'main/viewfullCusvisit/$1';
 $route['editcusvisit.html/(:any)'] = 'main/editCusvisit/$1';
 $route['savedata_cusEdit.html/(:any)'] = 'main/savedata_customervisitEdit/$1';
+$route['customer_print.html/(:any)'] = 'main/reportpdf/index/$1';
 
 
 // Upload

@@ -25,6 +25,7 @@
         <div class="row">
             <div class="col-md-12 bg-white p-3">
                 <a href="<?= base_url('cusvisit_list.html') ?>" class="button button-mini button-3d button-circle button-teal"><i class="icon-chevron-sign-left"></i>กลับ</a>
+                <a href="<?= base_url('customer_print.html/') . $cno ?>" target="_blank" class="button button-mini button-circle button-3d button-amber"><i class="icon-edit2"></i>ปริ้นเอกสาร</a>
                 <a href="<?= base_url('editcusvisit.html/') . $cno ?>" class="button button-mini button-circle button-3d button-amber"><i class="icon-edit2"></i>แก้ไขข้อมูล</a>
             </div>
         </div><br>
