@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Customer visit report</title>
 
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3A9Mc08SyCJjtWFLFijSITvvx0UmdmFU&callback=initMap&libraries=places&v=weekly" defer></script>
+    <!-- Google api key อย่าเอาไปใช้มั่วนะครับ ขอสงวนสิทธิ์-->
+
     <style>
         .dataTables_filter,
         .dataTables_length,
@@ -13,7 +17,23 @@
         .dataTables_paginate {
             display: none;
         }
+
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+            height: 500px;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        /* html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        } */
     </style>
+
+
 </head>
 
 <body>
@@ -24,7 +44,7 @@
         <!-- Subcontent section -->
         <div class="row">
             <div class="col-md-12 bg-white p-3">
-                <a href="<?= base_url('cusvisitview.html/').$cno ?>" class="button button-mini button-3d button-circle button-teal"><i class="icon-chevron-sign-left"></i>กลับ</a>
+                <a href="<?= base_url('cusvisitview.html/') . $cno ?>" class="button button-mini button-3d button-circle button-teal"><i class="icon-chevron-sign-left"></i>กลับ</a>
             </div>
         </div><br>
 
@@ -33,7 +53,7 @@
                 <div class="card-body">
                     <h2 class="" style="color:#FF9900;text-align:center;"><u>EDIT CUSTOMER VISIT REPORT</u></h2>
 
-                    <form action="<?= base_url('savedata_cusEdit.html/').$cno ?>" method="post" class="needs-validation" novalidate autocomplete="off">
+                    <form action="<?= base_url('savedata_cusEdit.html/') . $cno ?>" method="post" class="needs-validation" novalidate autocomplete="off">
 
                         <div class="card-body" style="border:2px solid #000;">
                             <div class="form-row">
@@ -112,16 +132,42 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Location lat:</label>
+                                        <input name="locationLatE" id="locationLatE" type="text" class="form-control" value="<?= $csvr_lolat ?>" >
+                                        <div class="invalid-feedback">กรุณาระบุ Location</div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Location lng:</label>
+                                        <input name="locationLngE" id="locationLngE" type="text" class="form-control" value="<?= $csvr_lolng ?>" >
+                                        <div class="invalid-feedback">กรุณาระบุ Location</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Location name:</label>
+                                        <input name="locationNameE" id="locationNameE" type="text" class="form-control" value="<?= $csvr_loname ?>" >
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="map"></div>
                         </div><br>
 
                         <div style="font-size:16px;">1.Customer Information / Competitor Product Usage: ข้อมูลของลูกค้า สินค้าที่ลูกค้าใช้อยู่</div>
                         <div class="card-body">
 
-                        <div class="col-md-12 form-group">
+                            <div class="col-md-12 form-group">
                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#addCusProUse"><i class="fas fa-plus-circle advAddDetail" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล"></i></a>
                                 <!-- <i class="fas fa-trash-alt advDelDetail"></i> -->
                             </div>
-                            
+
                             <div class="table-responsive">
                                 <table id="cusViDetail" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
@@ -137,18 +183,18 @@
                                     </thead>
 
                                     <tbody>
-                                        <?php 
-                                        foreach(getSubCus($cno)->result() as $rss){
+                                        <?php
+                                        foreach (getSubCus($cno)->result() as $rss) {
                                         ?>
-                                        <tr id="#erow_<?=$rss->csvrs_autoid?>">
-                                            <td><?=$rss->csvrs_type?></td>
-                                            <td><?=$rss->csvrs_saleeproduct?></td>
-                                            <td><?=$rss->csvrs_qty1?></td>
-                                            <td><?=$rss->csvrs_competition?></td>
-                                            <td><?=$rss->csvrs_qty2?></td>
-                                            <td><?=$rss->csvrs_remark?></td>
-                                            <td><button type="button" name="remove_details" class="btn btn-danger btn-xs remove_detailss" id="<?=$rss->csvrs_autoid?>">Remove</button></td>
-                                        </tr>
+                                            <tr id="#erow_<?= $rss->csvrs_autoid ?>">
+                                                <td><?= $rss->csvrs_type ?></td>
+                                                <td><?= $rss->csvrs_saleeproduct ?></td>
+                                                <td><?= $rss->csvrs_qty1 ?></td>
+                                                <td><?= $rss->csvrs_competition ?></td>
+                                                <td><?= $rss->csvrs_qty2 ?></td>
+                                                <td><?= $rss->csvrs_remark ?></td>
+                                                <td><button type="button" name="remove_details" class="btn btn-danger btn-xs remove_detailss" id="<?= $rss->csvrs_autoid ?>">Remove</button></td>
+                                            </tr>
                                         <?php }; ?>
                                     </tbody>
                                 </table>
@@ -185,6 +231,65 @@
 
                         <button type="submit" id="btnEditCusvisit" name="btnEditCusvisit" class="mt-2 btn btn-primary">บันทึกข้อมูล</button>
                     </form>
+
+                    <script>
+                        // The following example creates a marker in Stockholm, Sweden using a DROP
+                        // animation. Clicking on the marker will toggle the animation between a BOUNCE
+                        // animation and no animation.
+                        let marker;
+                        let lat = parseFloat(document.getElementById("locationLatE").value);
+                        let lng = parseFloat(document.getElementById("locationLngE").value);
+                        let locationname = document.getElementById("locationNameE").value;
+
+                        function initMap() {
+                            const map = new google.maps.Map(document.getElementById("map"), {
+                                zoom: 13,
+                                center: {
+                                    lat: lat,
+                                    lng: lng
+                                },
+                            });
+
+                            const contentString = locationname;
+
+                            const infowindow = new google.maps.InfoWindow({
+                                content: contentString,
+                            });
+
+                            marker = new google.maps.Marker({
+                                map,
+                                draggable: true,
+                                animation: google.maps.Animation.DROP,
+                                position: {
+                                    lat: lat,
+                                    lng: lng
+                                },
+                            });
+
+                            marker.addListener("mouseup", saylocation);
+
+                            infowindow.open(map, marker);
+                            // marker.addListener("click", () => {
+                            //     infowindow.open(map, marker);
+                            // });
+                        }
+
+                        function saylocation() {
+                            document.getElementById("locationLatE").value = marker.getPosition().lat();
+                            document.getElementById("locationLngE").value = marker.getPosition().lng();
+                        }
+
+                        function toggleBounce() {
+                            if (marker.getAnimation() !== null) {
+                                marker.setAnimation(null);
+                            } else {
+                                marker.setAnimation(google.maps.Animation.BOUNCE);
+                            }
+                        }
+                    </script>
+
+
+
                     <script>
                         $(document).ready(function() {
                             $('#cusViDetailV').DataTable({
@@ -282,7 +387,7 @@
                             $(document).on('click', '.remove_detailss', function() {
                                 var row_id = $(this).attr("id");
                                 if (confirm("คุณต้องการลบรายชื่อนี้ออกจากรายการใช่หรือไม่ ?")) {
-                                    
+
                                     deleteCusinform(row_id);
 
                                 } else {

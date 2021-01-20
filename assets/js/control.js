@@ -1277,7 +1277,9 @@ $(".percensuccessImage").progressPie({
 
 
 
-
+$('input[name="pac-input"]').change(function(){
+    $('#locationname').val($(this).val());
+});
 
 
 

@@ -397,11 +397,14 @@ class Main extends MX_Controller
             "csvr_email" => gCusVFull($cusformno)->csvr_email,
             "csvr_discussion" => gCusVFull($cusformno)->csvr_discussion,
             "csvr_action" => gCusVFull($cusformno)->csvr_action,
+            "csvr_lolat" => gCusVFull($cusformno)->csvr_lolat,
+            "csvr_lolng" => gCusVFull($cusformno)->csvr_lolng,
+            "csvr_loname" => gCusVFull($cusformno)->csvr_loname,
 
 
         );
         getHead();
-        getContent("viewFullCusvisit" , $data);
+        getContent("viewfullcusvisit" , $data);
         getFooter();
     }
 
@@ -422,6 +425,9 @@ class Main extends MX_Controller
             "csvr_email" => gCusVFull($cusformno)->csvr_email,
             "csvr_discussion" => gCusVFull($cusformno)->csvr_discussion,
             "csvr_action" => gCusVFull($cusformno)->csvr_action,
+            "csvr_lolat" => gCusVFull($cusformno)->csvr_lolat,
+            "csvr_lolng" => gCusVFull($cusformno)->csvr_lolng,
+            "csvr_loname" => gCusVFull($cusformno)->csvr_loname,
 
 
         );
@@ -468,19 +474,14 @@ class Main extends MX_Controller
     }
 
 
-    public function testcode()
-    {
-        $dc = date_create("2020-01-01");
-        $dateCon = date_format($dc, "Y");
-        for ($i = 1; $i <= 3; $i++) {
-            echo $i . " " . $dateCon . "<br>";
-
-            $dateCon++;
-        }
-    }
     public function map()
     {
         $this->load->view("map");
+    }
+
+    public function map2()
+    {
+        $this->load->view("map2");
     }
 }
 /* End of file Controllername.php */

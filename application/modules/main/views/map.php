@@ -5,11 +5,12 @@
     <title>Place Autocomplete</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3A9Mc08SyCJjtWFLFijSITvvx0UmdmFU&callback=initMap&libraries=places&v=weekly" defer></script>
+
     <style type="text/css">
         /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
         #map {
-            height: 100%;
+            height: 600px;
         }
 
         /* Optional: Makes the sample page fill the window. */
@@ -116,13 +117,20 @@
                 "icon",
                 "name",
             ]);
+
+
             const infowindow = new google.maps.InfoWindow();
             const infowindowContent = document.getElementById("infowindow-content");
             infowindow.setContent(infowindowContent);
-            const marker = new google.maps.Marker({
+            var marker = new google.maps.Marker({
                 map,
                 anchorPoint: new google.maps.Point(0, -29),
+                draggable: true,
+                animation: google.maps.Animation.DROP,
+                
             });
+
+
             autocomplete.addListener("place_changed", () => {
                 infowindow.close();
                 marker.setVisible(false);
@@ -144,8 +152,14 @@
                     map.setCenter(place.geometry.location);
                     map.setZoom(17); // Why 17? Because it looks good.
                 }
+
+
                 marker.setPosition(place.geometry.location);
                 marker.setVisible(true);
+                document.getElementById("inputLocationLatLng").value = marker.getPosition().lat();
+                document.getElementById("inputLocationLatLng2").value = marker.getPosition().lng();
+
+
                 let address = "";
 
                 if (place.address_components) {
@@ -166,6 +180,19 @@
                 infowindowContent.children["place-address"].textContent = address;
                 infowindow.open(map, marker);
             });
+
+            marker.addListener("mouseup", saylocation);
+
+            function saylocation() {
+            // document.getElementById("locationLat").value = marker.getPosition().lat();
+            // document.getElementById("locationLng").value = marker.getPosition().lng();
+            document.getElementById("inputLocationLatLng").value = marker.getPosition().lat();
+            document.getElementById("inputLocationLatLng2").value = marker.getPosition().lng();
+        }
+
+
+
+
 
             // Sets a listener on a radio button to change the filter type on Places
             // Autocomplete.
@@ -188,43 +215,50 @@
                     });
                 });
         }
+
+
+        
     </script>
 </head>
 
 <body>
 
-        <div class="pac-card" id="pac-card">
-            <div>
-                <div id="title">Autocomplete search</div>
-                <div id="type-selector" class="pac-controls">
-                    <input type="radio" name="type" id="changetype-all" checked="checked" />
-                    <label for="changetype-all">All</label>
+    <div class="pac-card" id="pac-card">
+        <div>
+            <div id="title">Autocomplete search</div>
+            <div id="type-selector" class="pac-controls">
+                <input type="radio" name="type" id="changetype-all" checked="checked" />
+                <label for="changetype-all">All</label>
 
-                    <input type="radio" name="type" id="changetype-establishment" />
-                    <label for="changetype-establishment">Establishments</label>
+                <input type="radio" name="type" id="changetype-establishment" />
+                <label for="changetype-establishment">Establishments</label>
 
-                    <input type="radio" name="type" id="changetype-address" />
-                    <label for="changetype-address">Addresses</label>
+                <input type="radio" name="type" id="changetype-address" />
+                <label for="changetype-address">Addresses</label>
 
-                    <input type="radio" name="type" id="changetype-geocode" />
-                    <label for="changetype-geocode">Geocodes</label>
-                </div>
-                <div id="strict-bounds-selector" class="pac-controls">
-                    <input type="checkbox" id="use-strict-bounds" value="" />
-                    <label for="use-strict-bounds">Strict Bounds</label>
-                </div>
+                <input type="radio" name="type" id="changetype-geocode" />
+                <label for="changetype-geocode">Geocodes</label>
             </div>
-            <div id="pac-container">
-                <input id="pac-input" type="text" placeholder="Enter a location" />
+            <div id="strict-bounds-selector" class="pac-controls">
+                <input type="checkbox" id="use-strict-bounds" value="" />
+                <label for="use-strict-bounds">Strict Bounds</label>
             </div>
         </div>
-        <div id="map"></div>
-        <div id="infowindow-content">
-            <img src="" width="16" height="16" id="place-icon" />
-            <span id="place-name" class="title"></span><br />
-            <span id="place-address"></span>
+        <div id="pac-container">
+            <input id="pac-input" type="text" placeholder="Enter a location" />
         </div>
-  
+    </div>
+
+    <div id="map"></div>
+    <div id="infowindow-content">
+        <img src="" width="16" height="16" id="place-icon" />
+        <span id="place-name" class="title"></span><br />
+        <span id="place-address"></span>
+    </div>
+
+    <input type="text" name="inputLocationLatLng" id="inputLocationLatLng">
+    <input type="text" name="inputLocationLatLng2" id="inputLocationLatLng2">
+
 
 </body>
 
