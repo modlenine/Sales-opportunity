@@ -124,7 +124,7 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	{
 		return setcookie(
 			$this->_config['cookie_name'],
-			NULL,
+			'',
 			1,
 			$this->_config['cookie_path'],
 			$this->_config['cookie_domain'],
@@ -185,7 +185,11 @@ abstract class CI_Session_driver implements SessionHandlerInterface {
 	 */
 	protected function _fail()
 	{
-		ini_set('session.save_path', config_item('sess_save_path'));
+		// PHP 8.x: ini_set() for session settings cannot be called when session is active
+		if (session_status() !== PHP_SESSION_ACTIVE)
+		{
+			ini_set('session.save_path', config_item('sess_save_path'));
+		}
 		return $this->_failure;
 	}
 }

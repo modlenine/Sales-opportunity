@@ -379,13 +379,21 @@ $config['encryption_key'] = '';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver'] = 'database';  // ใช้ database session เพื่อ share กับ Intranet
+$config['sess_driver'] = 'redis';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 14400;  // 4 hours
-$config['sess_save_path'] = 'intranet.ci_sessions';  // cross-database table reference
+$config['sess_save_path'] = 'tcp://192.168.20.82:6379?auth=Admin1234&timeout=5.0';
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = FALSE;
+$config['sess_regenerate_destroy'] = TRUE;
+
+// $config['sess_driver'] = 'database';  // ใช้ database session เพื่อ share กับ Intranet
+// $config['sess_cookie_name'] = 'ci_session';
+// $config['sess_expiration'] = 14400;  // 4 hours
+// $config['sess_save_path'] = 'intranet.ci_sessions';  // cross-database table reference
+// $config['sess_match_ip'] = FALSE;
+// $config['sess_time_to_update'] = 300;
+// $config['sess_regenerate_destroy'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -403,7 +411,9 @@ $config['sess_regenerate_destroy'] = FALSE;
 |
 */
 $config['cookie_prefix']	= '';
-$config['cookie_domain']	= '';
+// Dynamic cookie_domain: ใช้ .saleecolour.net บน production, '' บน localhost/IP
+$_hostname = $_SERVER['HTTP_HOST'] ?? '';
+$config['cookie_domain']	= (strpos($_hostname, 'saleecolour.net') !== FALSE) ? '.saleecolour.net' : '';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
