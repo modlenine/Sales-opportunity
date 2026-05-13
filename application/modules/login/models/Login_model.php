@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login_model extends CI_Model
 {
+  public $db2;
 
   public function __construct()
   {
@@ -14,7 +15,7 @@ class Login_model extends CI_Model
 
   public function escape_string()
   {
-    return mysqli_connect("192.190.2.3", "chainarong", "Admin1234", "saleecolour");
+    return mysqli_connect("localhost", "ant", "Ant1234", "saleecolour");
   }
 
 
@@ -50,6 +51,7 @@ class Login_model extends CI_Model
           $_SESSION['DeptCode'] = $r['DeptCode'];
           $_SESSION['memberemail'] = $r['memberemail'];
           $_SESSION['file_img'] = $r['file_img'];
+          $_SESSION['posi'] = $r['posi'];
 
           // insert login log
           session_write_close();

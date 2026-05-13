@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'main';
+$route['default_controller'] = 'main/projectlist_page';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -75,6 +75,7 @@ $route['usersetting.html'] = 'main/usersetting';
 // Customer zone
 $route['cusvisit_list.html'] = 'main/customerslist';
 $route['addcusvisit.html'] = 'main/addcustomervisit';
+$route['addcusvisit_re.html'] = 'main/addcustomervisit_re';
 $route['savedata_cus.html'] = 'main/savedata_customervisit';
 $route['cusvisitview.html/(:any)'] = 'main/viewfullCusvisit/$1';
 $route['editcusvisit.html/(:any)'] = 'main/editCusvisit/$1';

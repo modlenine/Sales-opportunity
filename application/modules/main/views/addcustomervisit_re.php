@@ -279,9 +279,10 @@
                                 <div class="col-md-8">
                                     <div class="position-relative form-group">
                                         <label class="">Customer Name:</label>
-                                        <input name="csvr_cusname" id="csvr_cusname" placeholder="" type="text" class="form-control" required>
+                                        <input name="csvr_cusname" id="csvr_cusname_re" placeholder="" type="text" class="form-control" required>
+                                        <span style="color:red;">** พิมพ์ชื่อบริษัท ที่เคยไป VISIT มาแล้วลงในช่องด้านบนเพื่อทำการดึงข้อมูลพื้นฐานอัตโนมัติ **</span>
                                         <div class="invalid-feedback">กรุณาระบุ Customer Name</div>
-                                        <div id="showCus"></div>
+                                        <div id="showCusRe"></div>
 
                                     </div>
                                 </div>

@@ -71,6 +71,7 @@
                                 <th class="border-b">ลูกค้า</th>
                                 <th class="border-b">ผู้รับผิดชอบ</th>
                                 <th class="border-b">กลุ่มสินค้า</th>
+                                <th class="border-b">หลักบอกระยะทาง</th>
                             </tr>
                         </thead>
                     </table>

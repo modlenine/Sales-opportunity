@@ -219,6 +219,49 @@ function deleteCusinform(rowid)
 }
 
 
+function getCusname(cusname)
+{
+    $.ajax({
+        url:"/intsys/sop/main/autoCusname",
+        method:"POST",
+        data:{
+            cusname: cusname
+        },
+        success:function(data){
+            $('#showCus').html(data);
+        }
+    });
+}
+
+function getCusnameRe(cusname)
+{
+    $.ajax({
+        url:"/intsys/sop/main/autoCusnameRe",
+        method:"POST",
+        data:{
+            cusname: cusname
+        },
+        success:function(data){
+            $('#showCusRe').html(data);
+        }
+    });
+}
+
+function getCuscode(cuscode)
+{
+    $.ajax({
+        url:"/intsys/sop/main/autoCuscode",
+        method:"POST",
+        data:{
+            cuscode: cuscode
+        },
+        success:function(data){
+            $('#showCuscode').html(data);
+        }
+    });
+}
+
+
 // Customer Zone  Customer Zone  Customer Zone 
 // Customer Zone  Customer Zone  Customer Zone 
 // Customer Zone  Customer Zone  Customer Zone 

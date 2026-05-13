@@ -42,6 +42,14 @@
                 },
             });
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> update google map
+>>>>>>> update google map
             const contentString = locationname;
 
             const infowindow = new google.maps.InfoWindow({
@@ -58,12 +66,43 @@
                 },
             });
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+            navigator.geolocation.getCurrentPosition(function(position) {
+                // Center on user's current location if geolocation prompt allowed
+                var initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(initialLocation);
+                map.setZoom(13);
+                infoWindow.setContent("Location found.");
+            }, function(positionError) {
+                // User denied geolocation prompt - default to Chicago
+                map.setCenter(new google.maps.LatLng(39.8097343, -98.5556199));
+                map.setZoom(5);
+            });
+
+
+
+
+
+>>>>>>> update google map
+>>>>>>> update google map
             marker.addListener("mouseup", saylocation);
 
             marker.addListener("click", () => {
                 infowindow.open(map, marker);
             });
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> update google map
+>>>>>>> update google map
         }
 
         function saylocation() {

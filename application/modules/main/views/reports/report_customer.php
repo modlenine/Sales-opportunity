@@ -169,7 +169,7 @@
                     <th width="10%" style="border:1px solid #000;text-align:center;"><b>Qty(mt/year)</b></th>
                     <th width="25%" style="border:1px solid #000;text-align:center;"><b>Competition Products</b></th>
                     <th width="10%" style="border:1px solid #000;text-align:center;"><b>Qty(mt/year)</b></th>
-                    <th width="20%" style="border:1px solid #000;text-align:center;"><b>Remark</b></th>
+                    <th width="20%" style="border:1px solid #000;text-align:center;"><b>Remarks</b></th>
                 </tr>
             </thead>
             <tbody>';
@@ -178,11 +178,11 @@
                     $html .='
                     <tr>
                     <td width="10%" style="border:1px solid #000;">'.$rss->csvrs_type.'</td>
-                    <td width="25%" style="border:1px solid #000;">'.$rss->csvrs_type.'</td>
-                    <td width="10%" style="border:1px solid #000;">'.$rss->csvrs_type.'</td>
-                    <td width="25%" style="border:1px solid #000;">'.$rss->csvrs_type.'</td>
-                    <td width="10%" style="border:1px solid #000;">'.$rss->csvrs_type.'</td>
-                    <td width="20%" style="border:1px solid #000;">'.$rss->csvrs_type.'</td>
+                    <td width="25%" style="border:1px solid #000;">'.$rss->csvrs_saleeproduct.'</td>
+                    <td width="10%" style="border:1px solid #000;">'.$rss->csvrs_qty1.'</td>
+                    <td width="25%" style="border:1px solid #000;">'.$rss->csvrs_competition.'</td>
+                    <td width="10%" style="border:1px solid #000;">'.$rss->csvrs_qty2.'</td>
+                    <td width="20%" style="border:1px solid #000;">'.$rss->csvrs_remark.'</td>
                     </tr>
                     ';
                 }

@@ -301,6 +301,13 @@ abstract class CI_DB_driver {
 	public $CACHE;
 
 	/**
+	 * Failover settings
+	 *
+	 * @var	array
+	 */
+	public $failover = array();
+
+	/**
 	 * Protect identifiers flag
 	 *
 	 * @var	bool

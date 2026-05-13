@@ -3,11 +3,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Main_model extends CI_Model
 {
+    public $db3;
 
     public function __construct()
     {
         parent::__construct();
         //Do your magic here
+        $this->db3 = $this->load->database('pricemarkup', TRUE);
         date_default_timezone_set("Asia/Bangkok");
     }
 
@@ -50,7 +52,16 @@ class Main_model extends CI_Model
             array('db' => 'm_detail', 'dt' => 2),
             array('db' => 'm_customer', 'dt' => 3),
             array('db' => 'm_owner', 'dt' => 4),
-            array('db' => 'm_productgroup', 'dt' => 5)
+            array('db' => 'm_productgroup', 'dt' => 5),
+            array('db' => 'm_distance' , 'dt' => 6,
+            'formatter' => function($d,$row){
+                $styleText = '';
+                if($d == 100){
+                    $styleText = ' style="color:green;font-weight:600;" ';
+                }
+                return '<span '.$styleText.'>'.$d.'%</span>';
+            }
+            )
         );
 
         // SQL server connection information
@@ -82,7 +93,7 @@ class Main_model extends CI_Model
         //         SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
         //     );
         // }
-        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112") {
+        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112" || getUser()->ecode == "M0282" || getUser()->ecode == "M1809" || getUser()->ecode == "M1344" || getUser()->ecode == "M0575" || getUser()->ecode == "M0739" || getUser()->ecode == "M1304") {
             echo json_encode(
                 SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
             );
@@ -220,6 +231,10 @@ class Main_model extends CI_Model
             } else if ($this->input->post("em_jobstatus") == "สิ้นสุดแล้ว (ล้มเหลว เพราะราคาไม่ผ่าน)") {
                 $jobstatus = "fail";
             } else if ($this->input->post("em_jobstatus") == "สิ้นสุดแล้ว (ล้มเหลว เพราะไม่สามารถพัฒนาสินค้านั้นได้)") {
+                $jobstatus = "fail";
+            }else if($this->input->post("em_jobstatus") == "สิ้นสุดแล้ว (ล้มเหลว เพราะลูกค้า เทสไม่ผ่านอาจต้องเสนอใหม่)"){
+                $jobstatus = "fail";
+            }else if($this->input->post("em_jobstatus") == "สิ้นสุดแล้ว (ล้มเหลว เพราะลูกค้า ล้มเลิกโปรเจค)"){
                 $jobstatus = "fail";
             } else {
                 $jobstatus = "active";
@@ -487,7 +502,7 @@ class Main_model extends CI_Model
         $ecode = getUser()->ecode;
         $deptcode = getUser()->DeptCode;
 
-        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112") {
+        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112" || getUser()->ecode == "M0282" || getUser()->ecode == "M1809" || getUser()->ecode == "M1344" || getUser()->ecode == "M0575" || getUser()->ecode == "M0739" || getUser()->ecode == "M1304") {
             echo json_encode(
                 SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns)
             );
@@ -620,6 +635,139 @@ class Main_model extends CI_Model
             }
         }
     }
+
+
+
+    public function autoCusname()
+    {
+        $cusname = "";
+
+        $cusname = $this->input->post("cusname");
+
+        // $this->db3->select("*");
+        // $this->db3->from("custtable");
+        // $this->db3->like("name" , $cusname);
+        // $sql = $this->db3->get();
+
+        $sql = $this->db3->query("SELECT
+        custtable.accountnum,
+        custtable.`name`,
+        custtable.phone,
+        custtable.telefax,
+        custtable.salesgroup,
+        custtable.custgroup,
+        custtable.telex,
+        custtable.email,
+        custtable.cellularphone,
+        custtable.maincontactid,
+        custtable.Firstname,
+        custtable.bpc_whtid,
+        custtable.slc_customergrade,
+        custtable.dataAreaId
+        FROM
+        custtable
+        WHERE `name` like '%$cusname%'
+        ");
+
+        $output = "";
+        foreach($sql->result() as $rs){
+            $output .= "<ul class='list-group'>";
+            $output .= "<a href='javascript:void(0)' class='selectCusname'
+            data_name = '$rs->name'
+            data_fristname =  '$rs->Firstname'
+            data_cellularphone = '$rs->cellularphone'
+            data_email = '$rs->email'
+            ><li class='list-group-item'>" . $rs->name ." / ".$rs->accountnum." / ".$rs->dataAreaId."</li></a>";
+            $output .= "</ul>";
+        }
+        echo $output;
+    }
+
+
+
+    public function autoCusnameRe()
+    {
+        $cusname = "";
+
+        $cusname = $this->input->post("cusname");
+
+        // $this->db3->select("*");
+        // $this->db3->from("custtable");
+        // $this->db3->like("name" , $cusname);
+        // $sql = $this->db3->get();
+
+        $sql = $this->db->query("SELECT
+        sop_customervisit.csvr_no,
+        sop_customervisit.csvr_cusname,
+        sop_customervisit.csvr_country,
+        sop_customervisit.csvr_business,
+        sop_customervisit.csvr_contact,
+        sop_customervisit.csvr_salee,
+        sop_customervisit.csvr_tel,
+        sop_customervisit.csvr_fax,
+        sop_customervisit.csvr_email,
+        sop_customervisit.csvr_lolat,
+        sop_customervisit.csvr_lolng,
+        sop_customervisit.csvr_loname,
+        sop_customervisit.csvr_discussion,
+        sop_customervisit.csvr_action,
+        sop_customervisit.csvr_salesname,
+        sop_customervisit.csvr_salesecode
+        FROM
+        sop_customervisit
+        WHERE csvr_cusname like '%$cusname%'
+        ");
+
+        $output = "";
+        foreach($sql->result() as $rs){
+            $output .= "<ul class='list-group'>";
+            $output .= "<a href='javascript:void(0)' class='selectCusnameRe'
+            data_csvr_cusname = '$rs->csvr_cusname'
+            data_csvr_country =  '$rs->csvr_country'
+            data_csvr_business = '$rs->csvr_business'
+            data_csvr_contact = '$rs->csvr_contact'
+            data_csvr_salee = '$rs->csvr_salee'
+            data_csvr_tel = '$rs->csvr_tel'
+            data_csvr_fax = '$rs->csvr_fax'
+            data_csvr_email = '$rs->csvr_email'
+            data_csvr_lolat = '$rs->csvr_lolat'
+            data_csvr_lolng = '$rs->csvr_lolng'
+            data_csvr_loname = '$rs->csvr_loname'
+            data_csvr_discussion = '$rs->csvr_discussion'
+            data_csvr_action = '$rs->csvr_action'
+
+            ><li class='list-group-item'>" . $rs->csvr_cusname ."</li></a>";
+            $output .= "</ul>";
+        }
+        echo $output;
+    }
+
+    // public function autoCuscode()
+    // {
+    //     $cuscode = "";
+
+    //     $cuscode = $this->input->post("cuscode");
+
+    //     // $this->db3->select("*");
+    //     // $this->db3->from("custtable");
+    //     // $this->db3->like("name" , $cusname);
+    //     // $sql = $this->db3->get();
+
+    //     $sql = $this->db3->query("SELECT * FROM custtable WHERE accountnum like '%$cuscode%' ");
+
+    //     $output = "";
+    //     foreach($sql->result() as $rs){
+    //         $output .= "<ul class='list-group'>";
+    //         $output .= "<a href='javascript:void(0)' class='selectCusCode'
+    //         data_name = '$rs->name'
+    //         data_fristname =  '$rs->Firstname'
+    //         data_cellularphone = '$rs->cellularphone'
+    //         data_email = '$rs->email'
+    //         ><li class='list-group-item'>" . $rs->name ."</li></a>";
+    //         $output .= "</ul>";
+    //     }
+    //     echo $output;
+    // }
 
 
     // Customers zone Customers zone Customers zone
@@ -760,7 +908,7 @@ class Main_model extends CI_Model
         $querywhere = '';
         $ecode = getUser()->ecode;
 
-        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112"){
+        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112" || getUser()->ecode == "M1809" || getUser()->ecode == "M0282" || getUser()->ecode == "M1344" || getUser()->ecode == "M0575" || getUser()->ecode == "M0739" || getUser()->ecode == "M1304"){
             $querywhere = '';
         }else{
             $querywhere = " WHERE m_owner = '$ecode' ";
@@ -820,7 +968,7 @@ class Main_model extends CI_Model
         $querywhere = '';
         $ecode = getUser()->ecode;
 
-        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112"){
+        if (getUser()->ecode == "M1848" || getUser()->ecode == "M0051" || getUser()->ecode == "M0112" || getUser()->ecode == "M1809" || getUser()->ecode == "M0282" || getUser()->ecode == "M1344" || getUser()->ecode == "M0575" || getUser()->ecode == "M0739" || getUser()->ecode == "M1304"){
             $querywhere = '';
         }else{
             $querywhere = " AND m_owner = '$ecode' ";

@@ -351,6 +351,17 @@ class Main extends MX_Controller
         getFooter();
     }
 
+    public function addcustomervisit_re()
+    {
+        $data = array(
+            "title" => "Customer visit report"
+        );
+
+        getHead();
+        getContent("addcustomervisit_re", $data);
+        getFooter();
+    }
+
     public function savedata_customervisit()
     {
         checkSession();
@@ -450,6 +461,23 @@ class Main extends MX_Controller
 
 
 
+    public function autoCusname()
+    {
+        $this->main->autoCusname();
+    }
+
+    public function autoCusnameRe()
+    {
+        $this->main->autoCusnameRe();
+    }
+
+    public function autoCuscode()
+    {
+        $this->main->autoCuscode();
+    }
+
+
+
 
 
     // Customers Zone Customers Zone Customers Zone
@@ -483,5 +511,10 @@ class Main extends MX_Controller
     {
         $this->load->view("map2");
     }
+    public function php()
+    {
+        echo phpinfo();
+    }
+
 }
 /* End of file Controllername.php */

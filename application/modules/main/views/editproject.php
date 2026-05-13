@@ -60,6 +60,7 @@
                          
                                 </div>
                             </div>
+                            <input hidden type="text" name="checkProductGroup" id="checkProductGroup" value="<?=$m_productgroup?>">
                         </div>
 
                         <div class="form-row">
@@ -85,7 +86,7 @@
                         <div class="form-row">
                             <div class="col-md-4">
                                 <div class="position-relative form-group">
-                                    <label class="">ปริมาณที่จะใช้ต่อปี (ตัน)</label>
+                                    <label class="">ปริมาณที่จะใช้ต่อปี <span id="em_productuse_title">(ตัน)</span></label>
                                     <input name="em_productuse" id="em_productuse" type="text" class="form-control" required value="{ms_productuse}">
                                     <div class="invalid-feedback">กรุณาระบุปริมาณที่จะใช้ต่อปี (ตัน)</div>
                                     <div id="enotify_m_productuse"></div>
@@ -104,7 +105,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="position-relative form-group">
-                                    <label class="">Idea price (บาท/กิโลกรัม)</label>
+                                    <label class="">Idea price <span id="em_ideaprice_title">(บาท/กิโลกรัม)</span></label>
                                     <input name="em_ideaprice" id="em_ideaprice" type="text" class="form-control" value="{ms_ideaprice}">
                                     <div id="enotify_m_ideaprice"></div>
                                 </div>
@@ -120,7 +121,7 @@ $i = 1;
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="position-relative form-group">
-                            <label class="">ประมาณการยอดการใช้ ปี '.$rsFor->f_year.' (ตัน)</label>
+                            <label class="">ประมาณการยอดการใช้ ปี '.$rsFor->f_year.' <span class="em_forcastuseYear_title">(ตัน)</span></label>
                             <input hidden type="text" name="em_forcastuseYear[]" id="em_forcastuseYear" value="'.$rsFor->f_year.'">
                             <input id="em_forcastuse'.$i.'" name="em_forcastuse[]" type="text" class="form-control" required value="'.$rsFor->f_use.'">
                             <div class="invalid-feedback">กรุณาระบุประมาณการยอดการใช้ ปี '.$rsFor->f_year.' (ตัน)</div>
@@ -171,6 +172,48 @@ $i = 1;
                         <button type="submit" id="btnEdit" name="btnEdit" class="mt-2 btn btn-primary">บันทึกการแก้ไข</button>
                     </form>
                     <script>
+
+                        $(document).ready(function(){
+                            $('#em_productgroup').change(function(){
+                                if($(this).val() == "Apply ( ใบ )"){
+
+                                    $('.em_forcastuseYear_title').text("(ใบ)");
+                                    $('#em_ideaprice_title').text("(บาท/ใบ)");
+                                    $('#em_productuse_title').text("(ใบ)");
+
+                                }else if($(this).val() == "Apply ( ม้วน )"){
+
+                                    $('.em_forcastuseYear_title').text("(ม้วน)");
+                                    $('#em_ideaprice_title').text("(บาท/ม้วน)");
+                                    $('#em_productuse_title').text("(ม้วน)");
+
+                                }else{
+                                    $('.em_forcastuseYear_title').text("(ตัน)");
+                                    $('#em_ideaprice_title').text("(บาท/กก.)");
+                                    $('#em_productuse_title').text("(ตัน)");
+                                }
+                            });
+
+                                if($('#checkProductGroup').val() == "Apply ( ใบ )"){
+
+                                    $('.em_forcastuseYear_title').text("(ใบ)");
+                                    $('#em_ideaprice_title').text("(บาท/ใบ)");
+                                    $('#em_productuse_title').text("(ใบ)");
+
+                                }else if($('#checkProductGroup').val() == "Apply ( ม้วน )"){
+
+                                    $('.em_forcastuseYear_title').text("(ม้วน)");
+                                    $('#em_ideaprice_title').text("(บาท/ม้วน)");
+                                    $('#em_productuse_title').text("(ม้วน)");
+
+                                }else{
+                                    $('.em_forcastuseYear_title').text("(ตัน)");
+                                    $('#em_ideaprice_title').text("(บาท/กก.)");
+                                    $('#em_productuse_title').text("(ตัน)");
+                                }
+                        });
+
+
                         // Example starter JavaScript for disabling form submissions if there are invalid fields
                         (function() {
                             'use strict';

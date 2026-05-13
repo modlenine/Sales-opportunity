@@ -39,6 +39,8 @@ if($('#checkPage').val() == ""){
 if($('#checkPage').val() == "addproject.html"){
 
 
+
+
     
 // Check number input Check number input Check number input
 // Check number input Check number input Check number input
@@ -1277,9 +1279,91 @@ $(".percensuccessImage").progressPie({
 
 
 
-$('input[name="pac-input"]').change(function(){
-    $('#locationname').val($(this).val());
+
+$('#csvr_cusname').keyup(function(){
+    let cusname = $('#csvr_cusname').val();
+    let cuscode = $('#csvr_cuscode').val();
+    if(cusname != ""){
+        getCusname(cusname,cuscode);
+    }else{
+        $('#showCus').html('');
+    }
+    
 });
+
+$('#csvr_cuscode').keyup(function(){
+    let cuscode = $('#csvr_cuscode').val();
+    let cusname = $('#csvr_cusname').val();
+    if(cuscode != ""){
+        getCuscode(cusname,cuscode);
+    }else{
+        $('#showCuscode').html('');
+    }
+});
+
+
+$(document).on('click' , '.selectCusname' , function(){
+    var data_name = $(this).attr('data_name');
+    var data_fristname = $(this).attr('data_fristname');
+    var data_cellularphone = $(this).attr('data_cellularphone');
+    var data_email = $(this).attr('data_email');
+
+    $('#csvr_cusname').val(data_name);
+    $('#csvr_contact').val(data_fristname);
+    $('#csvr_tel').val(data_cellularphone);
+    $('#csvr_email').val(data_email);
+
+    $('#showCus').html('');
+});
+
+
+
+$(document).on('click' , '.selectCusnameRe' , function(){
+    let data_csvr_cusname = $(this).attr('data_csvr_cusname');
+    let data_csvr_country = $(this).attr('data_csvr_country');
+    let data_csvr_business = $(this).attr('data_csvr_business');
+    let data_csvr_contact = $(this).attr('data_csvr_contact');
+    let data_csvr_salee = $(this).attr('data_csvr_salee');
+    let data_csvr_tel = $(this).attr('data_csvr_tel');
+    let data_csvr_fax = $(this).attr('data_csvr_fax');
+    let data_csvr_email = $(this).attr('data_csvr_email');
+    let data_csvr_lolat = $(this).attr('data_csvr_lolat');
+    let data_csvr_lolng = $(this).attr('data_csvr_lolng');
+    let data_csvr_loname = $(this).attr('data_csvr_loname');
+
+    $('#csvr_cusname_re').val(data_csvr_cusname);
+    $('#csvr_country').val(data_csvr_country);
+    $('#csvr_business option:selected').val(data_csvr_business).text(data_csvr_business);
+    $('#csvr_contact').val(data_csvr_contact);
+    $('#csvr_salee').val(data_csvr_salee);
+    $('#csvr_tel').val(data_csvr_tel);
+    $('#csvr_fax').val(data_csvr_fax);
+    $('#csvr_email').val(data_csvr_email);
+    $('#locationLat').val(data_csvr_lolat);
+    $('#locationLng').val(data_csvr_lolng);
+    $('#locationName').val(data_csvr_loname);
+
+
+    $('#showCusRe').html('');
+});
+
+
+
+if($('#checkPage').val() == "addcusvisit_re.html")
+{
+    
+    $('#csvr_cusname_re').keyup(function(){
+        let cusname = $('#csvr_cusname_re').val();
+        if(cusname !== ""){
+            getCusnameRe(cusname);
+        }else{
+            $('#showCusRe').html('');
+        }
+        
+    });
+}
+
+
 
 
 

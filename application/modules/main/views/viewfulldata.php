@@ -30,6 +30,7 @@
                 <span style="font-size:16px;line-height:1.8;"><b>ลูกค้า : </b>{customer}</span><br>
                 <span style="font-size:16px;line-height:1.8;"><b>กลุ่มสินค้า : </b>{progroup}</span><br>
             </div>
+            
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <span style="font-size:16px;line-height:1.8;"><b>วันที่ : </b>{datetime}</span><br>
@@ -39,6 +40,8 @@
 
             </div>
         </div>
+
+        <input hidden type="text" name="checkProgroup" id="checkProgroup" value="<?=$progroup?>">
 
         <div class="row bg-white p-3">
             <div class="col-md-12">
@@ -52,6 +55,28 @@
 </body>
 
 <script>
+    $(document).ready(function(){
+        
+            if($('#checkProgroup').val() == "Apply ( ใบ )"){
+
+                $('#m_forcastuseYear_title').text("(ใบ)");
+                $('#ms_ideaprice_title').text("(บาท/ใบ)");
+                $('#ms_productuse_title').text("(ใบ)");
+
+            }else if($('#checkProgroup').val() == "Apply ( ม้วน )"){
+
+                $('#m_forcastuseYear_title').text("(ม้วน)");
+                $('#ms_ideaprice_title').text("(บาท/ม้วน)");
+                $('#ms_productuse_title').text("(ม้วน)");
+
+            }else{
+                $('#m_forcastuseYear_title').text("(ตัน)");
+                $('#ms_ideaprice_title').text("(บาท/กก.)");
+                $('#ms_productuse_title').text("(ตัน)");
+            }
+        
+    });
+
     var trn_followdetail = new Simditor({
         textarea: $('#trn_followdetail'),
         toolbar: false,

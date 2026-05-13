@@ -43,7 +43,7 @@
 
             <div class="modal-body">
                 <div class="form-row">
-                    <div class="col-md-6 form-group">
+                    <div class="col-md-12 form-group">
                         <label for="">Type</label>
                         <input type="text" name="csv_type" id="csv_type" class="form-control">
                     </div>
@@ -63,7 +63,7 @@
                         <label for="">Q'ty (mt/year)</label>
                         <input type="text" name="csv_qty2" id="csv_qty2" class="form-control">
                     </div>
-                    <div class="col-md-6 form-group">
+                    <div class="col-md-12 form-group">
                         <label for="">Remark</label>
                         <input type="text" name="csv_remark" id="csv_remark" class="form-control">
                     </div>

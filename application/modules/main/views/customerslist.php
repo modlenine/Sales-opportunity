@@ -60,6 +60,7 @@
         <div class="row">
             <div class="col-md-12 bg-white p-3">
                 <a href="<?=base_url('addcusvisit.html')?>" class="button button-circle button-3d button-blue"><i class="icon-tags"></i>เพิ่มข้อมูลใหม่</a>
+                <a href="<?=base_url('addcusvisit_re.html')?>" class="button button-circle button-3d button-blue"><i class="icon-tags"></i>เพิ่มข้อมูลใหม่( VISIT ลูกค้าเดิม )</a>
 
                 <div class="table-responsive">
                     <table id="customerslist" class="table table-striped table-bordered" style="width:100%">
@@ -69,8 +70,9 @@
                                 <th class="border-b">Datetime</th>
                                 <th class="border-b">Customer name</th>
                                 <th class="border-b">Business Type</th>
-                                <th class="border-b">Country</th>
                                 <th class="border-b">Tel</th>
+                                <th class="border-b">Email</th>
+                                <th class="border-b">Sales name</th>
                             </tr>
                         </thead>
                     </table>

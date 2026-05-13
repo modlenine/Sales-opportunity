@@ -334,7 +334,7 @@
                                 </a>
                             </li>
 
-                            <li class="app-sidebar__heading">Setting Menu</li>
+                            <!-- <li class="app-sidebar__heading">Setting Menu</li>
                             <li>
                                 <a href="javascript:void(0)">
                                     <i class="metismenu-icon icon-user-cog" style="color:#696969;"></i>
@@ -346,7 +346,7 @@
                                     <i class="metismenu-icon icon-user-tag" style="color:#696969;"></i>
                                     User Log
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- <li>
                                 <a href="<?= base_url('login/logout') ?>" onclick="confirm('คุณต้องการออกจากระบบใช่หรือไม่')">
                                     <i class="metismenu-icon icon-signout" style="color:red;"></i>

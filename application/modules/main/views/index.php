@@ -12,18 +12,25 @@
     <div class="app-main__inner">
         <!-- Subcontent section -->
         <div class="row bg-white p-3">
+
+        <div class="col-md-12">
+              <h2 class="text-center">ยินดีต้อนรับเข้าสู่โปรแกรม<br>Sales Opportunity</h2>
+            </div>
+
             <div class="col-md-6">
                 <div id="graph1"></div>
             </div>
             <div class="col-md-6">
                 <div id="graph2"></div>
             </div>
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <div id="graph3"></div>
             </div>
             <div class="col-md-6">
                 <div id="graph4"></div>
-            </div>
+            </div> -->
+            
+            
         </div>
 
     </div><!-- Subcontent section -->
